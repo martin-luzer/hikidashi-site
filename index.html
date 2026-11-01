@@ -3,282 +3,362 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ヒキダシ — 参考動画の「どの秒が良いか」を残して渡す</title>
-<meta name="description" content="ビジネス系YouTubeのディレクター・編集者のための参考帳。参考動画を秒単位で残して、サムネで並べて、その秒から開く参考資料としてそのまま渡せます。買い切り・月額なし。">
-<!-- 発売までは検索に出さない。発売したら消す -->
+<title>ヒキダシ — 参考は、秒で渡す。</title>
+<meta name="description" content="ビジネス系YouTubeのディレクター・編集者のための参考帳。参考動画の「どの秒が良いか」を残して、サムネで並べて、その秒から開く参考資料のまま渡せます。買い切り・月額なし。">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="ヒキダシ — 参考動画の「どの秒が良いか」を残して渡す">
-<meta property="og:description" content="ビジネス系YouTubeのディレクター・編集者のための参考帳。買い切り・月額なし。">
+<meta name="theme-color" content="#0A0A0A">
+<meta property="og:title" content="ヒキダシ — 参考は、秒で渡す。">
+<meta property="og:description" content="参考動画の「どの秒が良いか」を残して、そのまま渡す。買い切り・月額なし。">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23FFD400' font-family='sans-serif' font-weight='900'%3E引%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0A0A'/%3E%3Crect x='14' y='38' width='36' height='6' rx='3' fill='%23FFD400'/%3E%3Crect x='14' y='20' width='36' height='6' rx='3' fill='%23F5F5F7'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
 <style>
-  :root { --yellow: #FFD400; --black: #111111; --red: #E60012; --gray: #F4F4F4; --muted: #555; }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; font-family: 'Noto Sans JP', system-ui, sans-serif; color: var(--black); background: #fff; line-height: 1.75; -webkit-font-smoothing: antialiased; }
-  a { color: inherit; }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+:root{
+  --ink:#0A0A0A; --plane:#141414; --plane-2:#1C1C1E; --line:#2A2A2C;
+  --text:#F5F5F7; --text-2:#A1A1A6; --text-3:#8A8A8F;
+  --yellow:#FFD400; --yellow-ink:#1A1600; --red:#E60012;
+  --display:"Zen Kaku Gothic New","Hiragino Sans",sans-serif;
+  --body:"Noto Sans JP","Hiragino Sans",sans-serif;
+  --mono:"Geist Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --pad:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box}
+html{background:var(--ink);color-scheme:dark}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.8;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--yellow);color:var(--yellow-ink)}
+a{color:inherit;text-underline-offset:.25em}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;border-radius:6px}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:#2c2c2e;border-radius:10px;border:2px solid var(--ink)}
+.nb{display:inline-block}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 
-  .nb { display: inline-block; }
-  .logo { white-space: nowrap; display: inline-block; background: var(--black); color: var(--yellow); font-weight: 900; font-size: 22px; letter-spacing: .08em; padding: 2px 14px; transform: skew(-7deg); text-decoration: none; }
-  .logo span { display: inline-block; transform: skew(7deg); }
-  header { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.95); border-bottom: 1px solid #eee; }
-  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  header nav { display: flex; gap: 22px; font-size: 14px; font-weight: 700; }
-  header nav a { text-decoration: none; }
-  header nav a:hover { color: var(--red); }
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(1.4) blur(18px);-webkit-backdrop-filter:saturate(1.4) blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-in{max-width:1180px;margin:0 auto;padding:0 var(--pad);height:52px;display:flex;align-items:center;gap:28px;font-size:13px}
+.word{font-family:var(--display);font-weight:900;font-size:17px;letter-spacing:.14em;text-decoration:none;display:flex;align-items:center;gap:9px}
+.word i{display:inline-grid;gap:3px;width:15px}.word i::before,.word i::after{content:"";height:3px;border-radius:2px;background:var(--text)}.word i::after{background:var(--yellow)}
+.nav-links{display:flex;gap:26px;margin-left:auto;color:var(--text-2)}
+.nav-links a{text-decoration:none;transition:color .2s}.nav-links a:hover{color:var(--text)}
+.nav-buy{color:var(--yellow);text-decoration:none;font-weight:700}
 
-  .hero { padding: 64px 0 40px; text-align: center; }
-  .tag { display: inline-block; background: var(--yellow); font-weight: 700; font-size: 14px; padding: 3px 14px; border-radius: 4px; }
-  h1 { font-size: clamp(28px, 5.4vw, 52px); font-weight: 900; line-height: 1.35; margin: 18px 0 0; letter-spacing: .01em; }
-  .mark { background: linear-gradient(transparent 58%, var(--yellow) 58%); }
-  .lead { font-size: clamp(15px, 2vw, 18px); color: var(--muted); margin: 18px auto 0; max-width: 640px; }
-  .buy { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
-  .btn { display: inline-flex; flex-direction: column; align-items: center; min-width: 210px; padding: 12px 24px; border-radius: 8px; font-weight: 900; font-size: 17px; text-decoration: none; border: 3px solid var(--black); }
-  .btn small { font-size: 11px; font-weight: 700; opacity: .85; }
-  .btn.red { background: var(--red); border-color: var(--red); color: #fff; }
-  .btn.black { background: var(--black); color: #fff; }
-  .btn.soon { cursor: default; opacity: .55; }
-  .note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .3s var(--ease),background .2s,color .2s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-y{background:var(--yellow);color:var(--yellow-ink)}
+.btn-y:hover{background:#FFE14D}
+.btn-q{color:var(--text);box-shadow:inset 0 0 0 1px #3A3A3C}
+.btn-q:hover{box-shadow:inset 0 0 0 1px var(--text-2)}
+.btn small{font-family:var(--mono);font-weight:500;font-size:13px;opacity:.75}
+.btn[aria-disabled="true"]{cursor:default}
+.pending{font-size:13px;color:var(--text-3);margin-top:14px}
 
-  .screen { margin: 44px auto 0; max-width: 860px; border: 4px solid var(--black); border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 10px 10px 0 var(--yellow); text-align: left; }
-  .screen-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 2px solid var(--black); }
-  .screen-bar .logo { font-size: 13px; padding: 0 8px; }
-  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
-  .chip { font-size: 12px; font-weight: 700; padding: 1px 10px; border-radius: 4px; border: 2px solid var(--black); }
-  .chip.on { background: var(--yellow); }
-  .thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 14px; }
-  .thumb .img { aspect-ratio: 16/9; border-radius: 6px; position: relative; background: #ddd; overflow: hidden; }
-  .thumb .img b { position: absolute; left: 8px; top: 8px; right: 8px; font-size: clamp(10px, 1.6vw, 16px); font-weight: 900; line-height: 1.2; color: #fff; text-shadow: 0 0 3px #000, 0 0 3px #000; }
-  .thumb .img i { position: absolute; left: 6px; bottom: 6px; font-style: normal; background: var(--red); color: #fff; font-size: 11px; font-weight: 700; padding: 0 6px; border-radius: 3px; }
-  .thumb p { margin: 6px 0 0; font-size: 12px; font-weight: 700; line-height: 1.4; }
-  .thumb small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
-  .t1 .img { background: #2E4A7A; } .t2 .img { background: #C7462F; } .t3 .img { background: #3C7A4A; }
+/* hero */
+.hero{text-align:center;padding:clamp(56px,9vw,112px) var(--pad) 0;overflow:hidden}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(44px,7.4vw,96px);line-height:1.12;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1 .y{color:var(--yellow)}
+.hero-sub{color:var(--text-2);font-size:clamp(16px,1.6vw,20px);margin:22px auto 0;max-width:34em;line-height:1.75}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
 
-  section { padding: 72px 0; }
-  h2 { font-size: clamp(24px, 3.6vw, 36px); font-weight: 900; text-align: center; margin: 0 0 36px; line-height: 1.4; }
-  h2 em { font-style: normal; color: var(--red); }
-  .dark { background: var(--black); color: #fff; }
-  .dark h2 em { color: var(--yellow); }
+/* device */
+.stage{position:relative;max-width:1100px;margin:clamp(56px,8vw,88px) auto 0;padding:0 var(--pad)}
+.device{position:relative;border-radius:22px;background:var(--plane);box-shadow:0 0 0 1px #262628,0 40px 120px -20px rgba(0,0,0,.9);overflow:hidden;text-align:left}
+.app-bar{height:46px;display:flex;align-items:center;gap:14px;padding:0 18px;border-bottom:1px solid var(--line)}
+.dots{display:flex;gap:7px}.dots span{width:11px;height:11px;border-radius:50%;background:#3A3A3C}
+.app-word{font-family:var(--display);font-weight:900;font-size:13px;letter-spacing:.12em;color:var(--text-2)}
+.tabs{display:flex;gap:6px;margin-left:12px;flex-wrap:wrap}
+.tab{font:500 13px/1 var(--body);color:var(--text-2);background:none;border:0;padding:7px 12px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.tab:hover{color:var(--text)}
+.tab[aria-pressed="true"]{background:var(--text);color:var(--ink)}
+.tab .n{font-family:var(--mono);font-size:11px;margin-left:5px;opacity:.6}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:22px}
+.clip{min-width:0;transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.clip.out{opacity:.12;transform:scale(.98)}
+.thumb{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:var(--c,#333)}
+.thumb b{position:absolute;left:9%;top:12%;right:9%;font-family:var(--display);font-weight:900;font-size:clamp(11px,1.35vw,17px);line-height:1.15;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.6),0 0 12px rgba(0,0,0,.35)}
+.thumb b em{font-style:normal;color:var(--yellow)}
+.thumb .face{position:absolute;right:6%;bottom:0;width:30%;aspect-ratio:3/4;border-radius:40% 40% 0 0;background:rgba(255,255,255,.16)}
+.thumb .tc{position:absolute;left:7px;bottom:7px;font:500 11px/1 var(--mono);background:rgba(0,0,0,.72);padding:4px 6px;border-radius:4px}
+.clip.sel .thumb{box-shadow:0 0 0 3px var(--yellow)}
+.clip.sel .thumb .tc{background:var(--yellow);color:var(--yellow-ink)}
+.clip p{margin:9px 2px 0;font-size:13px;line-height:1.45;font-weight:500}
+.clip span.k{display:block;font-size:11.5px;color:var(--text-3);font-weight:400;margin-top:2px}
+.note-synth{font-size:12px;color:var(--text-3);text-align:right;padding:0 22px 14px;margin:0}
+.callout{position:absolute;right:calc(var(--pad) - 64px);top:-58px;text-align:left;pointer-events:none}
+.callout .big{font-family:var(--mono);font-weight:600;font-size:clamp(56px,8vw,112px);line-height:1;color:var(--yellow);letter-spacing:-.04em;display:flex;align-items:center;gap:14px}
+.callout .big::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--red)}
+.callout .sub{font-size:13px;color:var(--text-2);border-top:1px solid rgba(255,212,0,.6);margin-top:10px;padding-top:8px;max-width:220px;line-height:1.6}
 
-  .pain { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-  .pain div { background: var(--gray); border-radius: 10px; padding: 18px 20px; font-weight: 700; }
-  .pain div::before { content: '“'; color: var(--red); font-size: 28px; font-weight: 900; line-height: 0; vertical-align: -10px; margin-right: 4px; }
-  .answer { text-align: center; margin-top: 28px; font-size: clamp(18px, 2.6vw, 24px); font-weight: 900; }
+/* sections */
+section{padding:clamp(96px,14vw,180px) var(--pad);max-width:1180px;margin:0 auto}
+h2{font-family:var(--display);font-weight:900;font-size:clamp(34px,5vw,64px);line-height:1.18;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.lede{color:var(--text-2);font-size:clamp(16px,1.5vw,19px);max-width:32em;margin:22px 0 0}
 
-  .feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-  .feat { background: #1C1C1C; border-left: 5px solid var(--yellow); padding: 22px; }
-  .feat .num { color: var(--yellow); font-weight: 900; font-size: 14px; }
-  .feat h3 { margin: 4px 0 8px; font-size: 21px; font-weight: 900; }
-  .feat p { margin: 0; color: #CFCFCF; font-size: 15px; }
+/* scrub */
+.scrub{margin-top:clamp(48px,7vw,80px)}
+.read{display:flex;align-items:baseline;gap:22px;flex-wrap:wrap}
+.read .time{font-family:var(--mono);font-weight:600;font-size:clamp(48px,10.5vw,148px);line-height:.95;letter-spacing:-.05em;white-space:nowrap}
+.read .time .in{color:var(--yellow)}
+.read .lbl{color:var(--text-2);font-size:14px;max-width:16em;line-height:1.6}
+.track{position:relative;height:84px;margin-top:28px;border-radius:12px;background:var(--plane-2);overflow:hidden}
+.frames{position:absolute;inset:0;display:grid;grid-template-columns:repeat(24,1fr);gap:2px;padding:8px}
+.frames i{border-radius:3px;background:#262628}
+.range{position:absolute;top:0;bottom:0;left:calc(var(--a,8)*1%);width:calc((var(--b,30) - var(--a,8))*1%);background:rgba(255,212,0,.22);box-shadow:inset 0 0 0 2px var(--yellow);border-radius:8px;transition:left .1s linear,width .1s linear}
+.range::before,.range::after{content:"";position:absolute;top:50%;width:6px;height:34px;margin-top:-17px;border-radius:3px;background:var(--yellow)}
+.range::before{left:-3px}.range::after{right:-3px}
+.head{position:absolute;top:-6px;bottom:-6px;left:calc(var(--p,0)*1%);width:2px;background:var(--text)}
+.ticks{display:flex;justify-content:space-between;font:400 12px/1 var(--mono);color:var(--text-3);margin-top:12px}
+.marks{display:flex;gap:28px;margin-top:22px;font-size:14px;color:var(--text-2);flex-wrap:wrap}
+.marks b{font-family:var(--mono);font-weight:500;color:var(--text)}
 
-  .kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-  .kind { border: 3px solid var(--black); border-radius: 10px; padding: 16px 18px; }
-  .kind h3 { margin: 0; font-size: 20px; font-weight: 900; }
-  .kind h3 span { background: var(--yellow); padding: 0 6px; }
-  .kind p { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
+/* yellow field */
+.field{background:var(--yellow);color:var(--yellow-ink)}
+.field section{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
+.field .lede{color:#3D3500}
+.doc{background:#fff;color:#1d1d1f;border-radius:16px;padding:28px 30px;box-shadow:0 30px 80px -30px rgba(60,50,0,.55);font-size:14.5px;line-height:1.75}
+.doc .dt{margin:0 0 4px;font:700 13px/1.4 var(--body);color:#6E6E73}
+.doc .dh{margin:18px 0 6px;font-size:17px;font-weight:700}
+.doc ul{margin:0;padding-left:1.1em}
+.doc li{margin:2px 0}
+.doc a{color:#1d1d1f;text-decoration-color:var(--yellow);text-decoration-thickness:3px;font-family:var(--mono);font-size:13px;word-break:break-all}
+.dests{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.dests span{font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--yellow-ink)}
 
-  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 10px; align-items: center; text-align: center; }
-  .flow div { background: var(--gray); border-radius: 10px; padding: 18px 12px; font-weight: 700; }
-  .flow div b { display: block; font-size: 19px; font-weight: 900; }
-  .flow div.us { background: var(--yellow); }
-  .flow span { font-size: 26px; font-weight: 900; color: var(--red); }
-  .flow-note { text-align: center; color: var(--muted); font-size: 14px; margin-top: 16px; }
+/* ai */
+.ai{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(40px,6vw,96px);align-items:end}
+.ai .lede{max-width:28em}
+.prompt{border-top:1px solid var(--line);padding-top:22px;font-size:15px;color:var(--text-2);line-height:1.9}
+.prompt b{color:var(--text);font-weight:500}
 
-  .md { background: #1C1C1C; border-radius: 10px; padding: 18px 20px; font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: #EDEDED; line-height: 1.7; overflow-x: auto; white-space: pre; }
-  .md .h { color: var(--yellow); }
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; }
-  .two h3 { font-size: 24px; font-weight: 900; margin: 0 0 10px; line-height: 1.4; }
-  .two p { margin: 0 0 10px; color: #CFCFCF; }
+/* pricing */
+.price-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.tiers{margin-top:clamp(40px,6vw,64px);border-top:1px solid var(--line)}
+.tier{display:grid;grid-template-columns:200px 1fr auto;gap:24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--line)}
+.tier .when{color:var(--text-2);font-size:15px}
+.tier .yen{font-family:var(--mono);font-weight:600;font-size:clamp(40px,6vw,72px);letter-spacing:-.04em;line-height:1}
+.tier .yen small{font-size:.38em;margin-left:4px;letter-spacing:0}
+.tier .tag{font-size:13px;color:var(--text-3)}
+.tier.now .when,.tier.now .tag{color:var(--yellow)}
+.tier.now .yen{color:var(--yellow)}
+.price-note{color:var(--text-2);font-size:14px;margin-top:22px}
 
-  .price { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 820px; margin: 0 auto; }
-  .tier { border: 3px solid var(--black); border-radius: 12px; padding: 22px 16px; text-align: center; }
-  .tier.now { border-color: var(--red); box-shadow: 6px 6px 0 var(--yellow); }
-  .tier .badge { display: inline-block; font-size: 12px; font-weight: 900; padding: 1px 10px; border-radius: 4px; background: var(--black); color: #fff; }
-  .tier.now .badge { background: var(--red); }
-  .tier .yen { font-size: 34px; font-weight: 900; margin-top: 8px; }
-  .tier .yen small { font-size: 15px; }
-  .tier p { margin: 0; font-size: 13px; color: var(--muted); }
-  .price-note { text-align: center; color: var(--muted); font-size: 14px; margin-top: 18px; }
+/* faq */
+.faq{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(40px,6vw,96px)}
+details{border-bottom:1px solid var(--line);padding:20px 0}
+details:first-child{border-top:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;font-weight:700;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:12px;height:12px;margin-top:7px;border-right:2px solid var(--text-2);border-bottom:2px solid var(--text-2);transform:rotate(45deg);transition:transform .3s var(--ease)}
+details[open] summary::after{transform:rotate(-135deg) translate(-4px,-4px)}
+details p{color:var(--text-2);margin:12px 0 0;max-width:36em}
 
-  .faq { max-width: 760px; margin: 0 auto; }
-  .faq details { border-bottom: 2px solid var(--black); padding: 14px 4px; }
-  .faq summary { font-weight: 900; cursor: pointer; list-style: none; }
-  .faq summary::before { content: 'Q. '; color: var(--red); }
-  .faq details p { margin: 10px 0 0; color: #333; }
+/* close */
+.close{text-align:center}
+.close h2{font-size:clamp(40px,6.4vw,84px)}
+footer{border-top:1px solid #1d1d1f;color:var(--text-3);font-size:12.5px}
+footer .in{max-width:1180px;margin:0 auto;padding:28px var(--pad) 40px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 
-  .cta { background: var(--yellow); text-align: center; }
-  .cta h2 { margin-bottom: 8px; }
-  footer { background: var(--black); color: #aaa; font-size: 13px; padding: 28px 0; }
-  footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+/* the one authored entrance: the device settles into place once, from an already-visible start */
+.device{animation:settle 1.4s var(--ease) both}
+@keyframes settle{from{transform:translateY(24px) scale(.985);box-shadow:0 0 0 1px #262628,0 20px 60px -20px rgba(0,0,0,.9)}}
+@media (prefers-reduced-motion:reduce){.device{animation:none}}
 
-  @media (max-width: 720px) {
-    header nav { display: none; }
-    .thumbs { grid-template-columns: repeat(2, 1fr); }
-    .thumbs .t3 { display: none; }
-    .flow { grid-template-columns: 1fr; }
-    .flow span { transform: rotate(90deg); }
-    .two { grid-template-columns: 1fr; }
-    .price { grid-template-columns: 1fr; }
-  }
+@media (max-width:900px){
+  .nav-links{display:none}
+  .nav-buy{margin-left:auto}
+  .grid{grid-template-columns:repeat(2,1fr);gap:14px;padding:16px}
+  .callout{position:static;margin:0 0 18px}
+  .field section,.ai,.faq{grid-template-columns:1fr}
+  .tier{grid-template-columns:1fr auto;gap:6px 18px}
+  .tier .tag{grid-column:1/-1}
+  .tabs{margin-left:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none}
+  .app-word,.dots{display:none}
+  .app-bar{padding:0 10px}
+}
+@media (max-width:520px){
+  .grid .clip:nth-child(n+5){display:none}
+  .frames{grid-template-columns:repeat(12,1fr)}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <a class="logo" href="#"><span>ヒキダシ</span></a>
-    <nav>
-      <a href="#features">できること</a>
-      <a href="#price">値段</a>
-      <a href="#faq">よくある質問</a>
+<header class="nav">
+  <div class="nav-in">
+    <a class="word" href="#top" aria-label="ヒキダシ トップへ"><i aria-hidden="true"></i>ヒキダシ</a>
+    <nav class="nav-links" aria-label="ページ内">
+      <a href="#keep">残す</a><a href="#hand">渡す</a><a href="#price">値段</a><a href="#faq">よくある質問</a>
     </nav>
+    <a class="nav-buy" href="#price">購入</a>
   </div>
 </header>
 
-<main>
+<main id="top">
   <div class="hero">
-    <div class="wrap">
-      <span class="tag">ビジネス系YouTubeのディレクター・編集者へ</span>
-      <h1><span class="nb">参考動画の</span><span class="nb"><span class="mark">「どの秒が良いか」</span>を</span><br><span class="nb">残して、</span><span class="nb">そのまま渡せる。</span></h1>
-      <p class="lead"><span class="nb">URLを貼るだけの参考共有は、</span><span class="nb">もう終わり。</span><br><span class="nb">サムネ・冒頭・演出・ネタを、</span><span class="nb">秒単位で「引き出し」に</span><span class="nb">しまっておけます。</span></p>
-      <div class="buy">
-        <a class="btn red soon" aria-disabled="true">Brainで購入<small>準備中</small></a>
-        <a class="btn black soon" aria-disabled="true">Tipsで購入<small>準備中</small></a>
-      </div>
-      <p class="note">買い切り・月額なし／Windows・Macのブラウザで使えます</p>
+    <h1><span class="nb">参考は、</span><span class="nb"><span class="y">秒</span>で渡す。</span></h1>
+    <p class="hero-sub"><span class="nb">参考動画の「どの秒が良いか」を残して、</span><span class="nb">その秒から開く資料のまま、</span><span class="nb">クライアントと編集者へ。</span></p>
+    <div class="hero-cta">
+      <a class="btn btn-y" aria-disabled="true">Brainで購入 <small>¥4,980</small></a>
+      <a class="btn btn-q" aria-disabled="true">Tipsで購入</a>
+    </div>
+    <p class="pending">販売ページは準備中です。先着10部は4,980円。</p>
 
-      <div class="screen" role="img" aria-label="ヒキダシの画面の例。参考動画がサムネで並び、種類のタブで絞り込める">
-        <div class="screen-bar">
-          <span class="logo"><span>ヒキダシ</span></span>
-          <div class="chips">
-            <span class="chip">すべて</span>
-            <span class="chip on">デザイン 12</span>
-            <span class="chip">冒頭 8</span>
-            <span class="chip">演出 5</span>
-            <span class="chip">ネタ 9</span>
+    <div class="stage">
+      <div class="callout" aria-hidden="true">
+        <div class="big mono" id="heroTc">0:05</div>
+        <div class="sub">IN 0:05 — OUT 0:28<br>5秒で結論を言う冒頭</div>
+      </div>
+      <div class="device">
+        <div class="app-bar">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <span class="app-word">ヒキダシ</span>
+          <div class="tabs" role="group" aria-label="参考の種類で絞り込む">
+            <button class="tab" aria-pressed="true" data-k="all">すべて<span class="n">8</span></button>
+            <button class="tab" aria-pressed="false" data-k="design">デザイン<span class="n">2</span></button>
+            <button class="tab" aria-pressed="false" data-k="hook">冒頭<span class="n">2</span></button>
+            <button class="tab" aria-pressed="false" data-k="edit">演出<span class="n">2</span></button>
+            <button class="tab" aria-pressed="false" data-k="topic">ネタ<span class="n">2</span></button>
           </div>
         </div>
-        <div class="thumbs">
-          <div class="thumb t1"><div class="img"><b>年収が2倍に<br>なった話</b><i>0:12–0:31</i></div><p>サムネの数字の置き方<small>デザイン ・ ★★★</small></p></div>
-          <div class="thumb t2"><div class="img"><b>知らないと損する<br>3つのこと</b><i>0:00–0:28</i></div><p>結論を先に言う冒頭<small>冒頭 ・ ★★★★</small></p></div>
-          <div class="thumb t3"><div class="img"><b>1日密着してみた</b><i>2:40–3:05</i></div><p>効果音でテンポを作る<small>演出 ・ ★★★</small></p></div>
+        <div class="grid" id="grid">
+          <div class="clip" data-k="design"><div class="thumb" style="--c:#5B2321"><b>年収が<em>2倍</em>に<br>なった話</b><span class="face"></span><span class="tc">0:00</span></div><p>数字を左上に置くサムネ<span class="k">デザイン ・ ★★★</span></p></div>
+          <div class="clip" data-k="edit"><div class="thumb" style="--c:#203F33"><b>1日<em>密着</em><br>してみた</b><span class="face"></span><span class="tc">2:40–3:05</span></div><p>効果音でテンポを作る<span class="k">演出 ・ ★★★</span></p></div>
+          <div class="clip" data-k="topic"><div class="thumb" style="--c:#3D3426"><b><em>比較</em>してわかった<br>本当の差</b><span class="face"></span><span class="tc">0:00–0:15</span></div><p>比較で見せる企画<span class="k">ネタ ・ ★★★★</span></p></div>
+          <div class="clip sel" data-k="hook"><div class="thumb" style="--c:#24324F"><b>知らないと<em>損</em>する<br>3つのこと</b><span class="face"></span><span class="tc">0:05–0:28</span></div><p>5秒で結論を言う冒頭<span class="k">冒頭 ・ ★★★★</span></p></div>
+          <div class="clip" data-k="design"><div class="thumb" style="--c:#2B2B4A"><b>やめて<em>正解</em><br>だった習慣</b><span class="face"></span><span class="tc">0:00</span></div><p>テロップの縁取りと余白<span class="k">デザイン ・ ★★</span></p></div>
+          <div class="clip" data-k="hook"><div class="thumb" style="--c:#4A2B3B"><b>なぜ9割が<br><em>失敗</em>するのか</b><span class="face"></span><span class="tc">0:00–0:12</span></div><p>問いかけで始める<span class="k">冒頭 ・ ★★★</span></p></div>
+          <div class="clip" data-k="edit"><div class="thumb" style="--c:#1E3A44"><b>社長に<br><em>直撃</em>してみた</b><span class="face"></span><span class="tc">4:10–4:32</span></div><p>ジャンプカットの間</p></div>
+          <div class="clip" data-k="topic"><div class="thumb" style="--c:#44391E"><b><em>月30万</em>の<br>リアル</b><span class="face"></span><span class="tc">0:00</span></div><p>数字で引くタイトル<span class="k">ネタ ・ ★★★</span></p></div>
         </div>
+        <p class="note-synth">画面はイメージです（サムネは作例）</p>
       </div>
     </div>
   </div>
 
-  <section>
-    <div class="wrap">
-      <h2>こんなこと、<em>ありませんか？</em></h2>
-      <div class="pain">
-        <div>参考URLを送ったのに「どこを見ればいいの？」と聞き返される</div>
-        <div>前に見た良い冒頭、何分何秒だったか思い出せない</div>
-        <div>サムネの参考を1枚ずつスクショして並べている</div>
+  <section id="keep">
+    <h2><span class="nb">URLだけでは、</span><span class="nb">伝わらない。</span></h2>
+    <p class="lede">良いところを IN と OUT で区切ると、その区間だけがループします。「どこが良いか」を1行で残せば、何週間たっても、あの数秒にすぐ戻れます。</p>
+    <div class="scrub" id="scrub">
+      <div class="read">
+        <div class="time mono" aria-live="off"><span class="in" id="tIn">0:05</span><span style="color:var(--text-3)"> – </span><span id="tOut">0:28</span></div>
+        <p class="lbl">スクロールすると、再生位置が動きます。黄色の区間だけがループする範囲です。</p>
       </div>
-      <p class="answer">ヒキダシなら、<span class="mark">秒で残して、秒で渡せます。</span></p>
+      <div class="track" aria-hidden="true">
+        <div class="frames" id="frames"></div>
+        <div class="range" id="range"></div>
+        <div class="head" id="head"></div>
+      </div>
+      <div class="ticks mono" aria-hidden="true"><span>0:00</span><span>0:15</span><span>0:30</span><span>0:45</span><span>1:00</span></div>
+      <div class="marks"><span><b>I</b>　ここから</span><span><b>O</b>　ここまで</span><span><b>Space</b>　再生・停止</span><span><b>, .</b>　コマ送り</span></div>
     </div>
   </section>
 
-  <section class="dark" id="features">
-    <div class="wrap">
-      <h2><em>3つ</em>のできること</h2>
-      <div class="feats">
-        <div class="feat"><div class="num">01</div><h3>サムネで並べる</h3><p>集めた参考動画を、サムネの一覧で見比べ。大きさも変えられます。</p></div>
-        <div class="feat"><div class="num">02</div><h3>秒で残す</h3><p>良いところをIN／OUTで区切ると、その区間だけがループ。「どこが良いか」を1行メモ。</p></div>
-        <div class="feat"><div class="num">03</div><h3>そのまま渡す</h3><p>その秒から開くリンクつきの参考資料をコピー。チャット・Notion・ドキュメントにそのまま貼れます。</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <h2>参考は<em>4つの引き出し</em>に</h2>
-      <div class="kinds">
-        <div class="kind"><h3><span>デザイン</span></h3><p>サムネ、テロップ、画面の作り</p></div>
-        <div class="kind"><h3><span>冒頭</span></h3><p>最初の30秒の掴み方</p></div>
-        <div class="kind"><h3><span>演出</span></h3><p>カット割り、効果音、テンポ</p></div>
-        <div class="kind"><h3><span>ネタ</span></h3><p>企画、タイトル、伸びたテーマ</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section style="background:var(--gray)">
-    <div class="wrap">
-      <h2><span class="nb">探すのは表で。</span><em class="nb">残して渡すのはヒキダシで。</em></h2>
-      <div class="flow">
-        <div><b>見つける</b>YouTubeやリサーチの表で</div>
-        <span>→</span>
-        <div class="us"><b>残す</b>ヒキダシに秒単位で</div>
-        <span>→</span>
-        <div class="us"><b>渡す</b>クライアント・編集者に</div>
-      </div>
-      <p class="flow-note">伸びた動画を探すツールと一緒に使えます。動画はダウンロードせず、リンクと秒数だけを残します。</p>
-    </div>
-  </section>
-
-  <section class="dark">
-    <div class="wrap two">
+  <div class="field" id="hand">
+    <section>
       <div>
-        <h3>分析は、<span style="color:var(--yellow)">いつものAIに。</span></h3>
-        <p>ヒキダシにはAIを入れていません。そのかわり、「分析をお願いする文」つきのメモをワンクリックでコピー。ClaudeやChatGPTに貼るだけで、共通点や冒頭の型をまとめてもらえます。</p>
-        <p>AIの利用料がかからないので、月額なしの買い切りにできました。</p>
+        <h2><span class="nb">そのまま、</span><span class="nb">渡せる。</span></h2>
+        <p class="lede">「参考資料をコピー」を押すと、種類ごとに分かれた参考資料ができあがります。リンクはどれも、その秒から開きます。</p>
+        <div class="dests"><span>Chatwork</span><span>Slack</span><span>Notion</span><span>Googleドキュメント</span></div>
       </div>
-      <div class="md"><span class="h">## 冒頭（3）</span>
+      <div class="doc" aria-label="コピーされる参考資料の例">
+        <p class="dt">参考資料：来週の企画</p>
+        <p class="dh">冒頭（2）</p>
+        <ul>
+          <li>5秒で結論を言う冒頭　0:05–0:28</li>
+          <li><a href="#hand" tabindex="-1">youtube.com/watch?v=…&amp;t=5s</a></li>
+          <li>良いところ：最初の5秒で結論、そのあと理由を3つ予告</li>
+        </ul>
+        <p class="dh">デザイン（2）</p>
+        <ul>
+          <li>数字を左上に置くサムネ　0:00</li>
+          <li>良いところ：数字だけ黄色、顔は右下</li>
+        </ul>
+      </div>
+    </section>
+  </div>
 
-<span class="h">### 結論を先に言う冒頭</span>
-- 区間: 0:00–0:28
-- 見る: https://www.youtube.com/watch?v=…&amp;t=0s
-- 良いところ: 最初の5秒で結論、
-  そのあと理由を3つ予告</div>
+  <section>
+    <div class="ai">
+      <div>
+        <h2><span class="nb">分析は、</span><span class="nb">いつものAIに。</span></h2>
+        <p class="lede">ヒキダシにはAIを入れていません。そのかわり、分析をお願いする文をつけてコピーできます。ClaudeやChatGPTに貼れば、共通点や冒頭の型をまとめてもらえます。AIの利用料がかからないので、月額なしの買い切りにしました。</p>
+      </div>
+      <p class="prompt"><b>コピーされるお願いの文</b><br>種類ごとに、参考どうしの共通点を3つずつ挙げてください。次の動画に取り入れるなら、冒頭の台本の型、テロップ、サムネの方向を具体的に。</p>
     </div>
   </section>
 
   <section id="price">
-    <div class="wrap">
-      <h2>値段は<em>買い切り</em></h2>
-      <div class="price">
-        <div class="tier now"><span class="badge">先着10部</span><div class="yen">4,980<small>円</small></div><p>発売記念の価格</p></div>
-        <div class="tier"><span class="badge">11〜40部目</span><div class="yen">7,980<small>円</small></div><p>&nbsp;</p></div>
-        <div class="tier"><span class="badge">41部目から</span><div class="yen">9,800<small>円</small></div><p>通常の価格</p></div>
-      </div>
-      <p class="price-note">月額・追加料金なし。</p>
+    <div class="price-head">
+      <h2>買い切り。月額なし。</h2>
+      <p class="lede" style="margin:0">Windows・Macのブラウザで使えます。<br>インストールは要りません。</p>
     </div>
+    <div class="tiers">
+      <div class="tier now"><span class="when">先着10部</span><span class="yen mono">4,980<small>円</small></span><span class="tag">発売記念の値段</span></div>
+      <div class="tier"><span class="when">11〜40部目</span><span class="yen mono">7,980<small>円</small></span><span class="tag">&nbsp;</span></div>
+      <div class="tier"><span class="when">41部目から</span><span class="yen mono">9,800<small>円</small></span><span class="tag">通常の値段</span></div>
+    </div>
+    <p class="price-note">購入は Brain か Tips から。販売ページは準備中です。</p>
   </section>
 
-  <section id="faq" style="padding-top:0">
-    <div class="wrap">
+  <section id="faq">
+    <div class="faq">
       <h2>よくある質問</h2>
-      <div class="faq">
-        <details><summary>動画をダウンロードしますか？</summary><p>いいえ。YouTubeの動画はダウンロードせず、リンクと秒数だけを残します。再生はYouTubeの公式プレイヤーです。</p></details>
-        <details><summary>WindowsでもMacでも使えますか？</summary><p>はい。ChromeやEdgeなどのブラウザで動きます。インストールは要りません。</p></details>
-        <details><summary>データはどこに保存されますか？</summary><p>お使いのブラウザの中だけに保存されます。外のサーバーには送りません。ブラウザのデータを消すと消えるので、ときどきバックアップを書き出してください（アプリの中でワンクリックでできます）。</p></details>
-        <details><summary>AIは入っていますか？</summary><p>入っていません。分析をお願いする文つきのメモをコピーして、ClaudeやChatGPTなど、お使いのAIに貼ってください。</p></details>
-        <details><summary>月額はかかりますか？</summary><p>かかりません。買い切りです。</p></details>
+      <div>
+        <details><summary>動画をダウンロードしますか？</summary><p>しません。YouTubeの動画はリンクと秒数だけを残し、再生はYouTubeの公式プレイヤーです。</p></details>
+        <details><summary>データはどこに保存されますか？</summary><p>お使いのブラウザの中だけです。外のサーバーには送りません。ブラウザのデータを消すと消えるので、アプリの中からときどきバックアップを書き出してください。</p></details>
+        <details><summary>WindowsでもMacでも使えますか？</summary><p>使えます。ChromeやEdgeなどのブラウザで動きます。</p></details>
+        <details><summary>伸びた動画を探す機能はありますか？</summary><p>ありません。ヒキダシは、見つけた動画を残して渡すための道具です。リサーチの表やツールと一緒に使ってください。</p></details>
+        <details><summary>返金はできますか？</summary><p>デジタル商品のため、購入後の返金はできません。購入前にこのページと販売ページの説明をご確認ください。</p></details>
       </div>
     </div>
   </section>
 
-  <section class="cta">
-    <div class="wrap">
-      <h2>参考の引き出しを、増やそう。</h2>
-      <div class="buy">
-        <a class="btn red soon" aria-disabled="true">Brainで購入<small>準備中</small></a>
-        <a class="btn black soon" aria-disabled="true">Tipsで購入<small>準備中</small></a>
-      </div>
+  <section class="close">
+    <h2><span class="nb">参考の引き出しを、</span><span class="nb">増やそう。</span></h2>
+    <div class="hero-cta">
+      <a class="btn btn-y" aria-disabled="true">Brainで購入 <small>¥4,980</small></a>
+      <a class="btn btn-q" aria-disabled="true">Tipsで購入</a>
     </div>
+    <p class="pending">販売ページは準備中です。</p>
   </section>
 </main>
 
 <footer>
-  <div class="wrap">
-    <span class="logo" style="font-size:15px"><span>ヒキダシ</span></span>
+  <div class="in">
+    <span>© ヒキダシ</span>
     <span>YouTube は Google LLC の商標です。ヒキダシは YouTube とは関係のない、YouTube 向けの道具です。</span>
   </div>
 </footer>
 
+<script>
+(function(){
+
+  var tabs=document.querySelectorAll('.tab'),clips=document.querySelectorAll('.clip');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-pressed',x===t?'true':'false')});
+    var k=t.dataset.k;clips.forEach(function(c){c.classList.toggle('out',k!=='all'&&c.dataset.k!==k)});
+  })});
+
+  var frames=document.getElementById('frames');for(var i=0;i<24;i++)frames.appendChild(document.createElement('i'));
+  var scrub=document.getElementById('scrub'),range=document.getElementById('range'),head=document.getElementById('head');
+  var tIn=document.getElementById('tIn'),tOut=document.getElementById('tOut');
+  function fmt(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function onScroll(){
+    var r=scrub.getBoundingClientRect(),vh=innerHeight;
+    var p=Math.min(1,Math.max(0,(vh-r.top)/(vh+r.height*.4)));
+    if(reduce)p=.6;
+    var a=8,b=8+p*39;
+    range.style.setProperty('--a',a);range.style.setProperty('--b',b);
+    head.style.setProperty('--p',b);
+    tIn.textContent=fmt(a*.6);tOut.textContent=fmt(b*.6);
+  }
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
 </body>
 </html>
