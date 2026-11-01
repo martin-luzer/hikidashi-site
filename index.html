@@ -60,7 +60,7 @@ a{color:inherit;text-underline-offset:.25em}
 .storm{position:relative;height:360vh}
 .storm-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 #stormCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.storm-hero{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--pad);pointer-events:none;background:radial-gradient(ellipse 60% 48% at 50% 50%,rgba(10,10,10,.86) 0%,rgba(10,10,10,.55) 55%,rgba(10,10,10,0) 100%);will-change:opacity,transform}
+.storm-hero{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--pad);pointer-events:none;background:radial-gradient(ellipse 62% 52% at 50% 50%,rgba(10,10,10,.92) 0%,rgba(10,10,10,.7) 55%,rgba(10,10,10,0) 100%);will-change:opacity,transform}
 .storm-hero .hero-cta,.storm-hero .pending{pointer-events:auto}
 .storm-cap{position:absolute;left:0;right:0;top:calc(52px + 7vh);margin:0;text-align:center;font-family:var(--display);font-weight:900;font-size:clamp(26px,3.6vw,46px);letter-spacing:-.01em;opacity:0;padding:0 var(--pad)}
 .storm-cols span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);font-weight:700;font-size:clamp(12px,1.2vw,15px);color:var(--text-2);opacity:0;white-space:nowrap}
@@ -103,11 +103,10 @@ h1 .y{color:var(--yellow)}
 .clip{min-width:0;transition:opacity .35s var(--ease),transform .35s var(--ease)}
 .clip.out{opacity:.12;transform:scale(.98)}
 .thumb{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:var(--c,#333)}
-.thumb::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,0) 70%)}
-.thumb b{position:absolute;z-index:1;left:9%;top:12%;right:9%;font-family:var(--display);font-weight:900;font-size:clamp(11px,1.35vw,17px);line-height:1.15;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.6),0 0 12px rgba(0,0,0,.35)}
+.thumb b{display:none;position:absolute;z-index:1;left:9%;top:12%;right:9%;font-family:var(--display);font-weight:900;font-size:clamp(11px,1.35vw,17px);line-height:1.15;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.6),0 0 12px rgba(0,0,0,.35)}
 .thumb b em{font-style:normal;color:var(--yellow)}
 .thumb .face{position:absolute;right:6%;bottom:0;width:30%;aspect-ratio:3/4;border-radius:40% 40% 0 0;background:rgba(255,255,255,.16)}
-.thumb .tc{position:absolute;left:7px;bottom:7px;font:500 11px/1 var(--mono);background:rgba(0,0,0,.72);padding:4px 6px;border-radius:4px}
+.thumb .tc{position:absolute;right:7px;bottom:7px;font:500 11px/1 var(--mono);background:rgba(0,0,0,.72);padding:4px 6px;border-radius:4px}
 .clip.sel .thumb{box-shadow:0 0 0 3px var(--yellow)}
 .clip.sel .thumb .tc{background:var(--yellow);color:var(--yellow-ink)}
 .clip p{margin:9px 2px 0;font-size:13px;line-height:1.45;font-weight:500}
@@ -432,7 +431,7 @@ if (THREE) {
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
 
   // Synthetic thumbnails in the language of business YouTube: bold outlined title, one yellow word, a face.
-  // Photo backgrounds generated with Nano Banana (no text); the page sets the titles.
+  // Sample thumbnails generated with Nano Banana Pro (titles baked in). TITLES is the fallback when an image fails to load.
   const TITLES = [
     ['知らないと', '損', 'する', '3つのこと'], ['プロが', '本音', 'で', '答えます'],
     ['1日', '密着', '', 'してみた'], ['', '比較', 'してわかった', '本当の差'],
@@ -455,7 +454,13 @@ if (THREE) {
     const W = 640, H = 360, c = document.createElement('canvas'); c.width = W; c.height = H;
     const x = c.getContext('2d');
     x.fillStyle = '#1C1C1E'; x.fillRect(0, 0, W, H);
-    if (photos[i]) x.drawImage(photos[i], 0, 0, W, H);
+    if (photos[i]) {
+      // The titles are part of the generated image; nothing to draw on top.
+      x.drawImage(photos[i], 0, 0, W, H);
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+      return t;
+    }
     const shade = x.createLinearGradient(0, 0, W * .7, 0);
     shade.addColorStop(0, 'rgba(0,0,0,.55)'); shade.addColorStop(1, 'rgba(0,0,0,0)');
     x.fillStyle = shade; x.fillRect(0, 0, W, H);
