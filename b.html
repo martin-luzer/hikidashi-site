@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ヒキダシ — 参考は、秒で渡す。（案B）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,800;0,900;1,800;1,900&family=Geist+Mono:wght@500;700&family=Noto+Sans+JP:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0A0A; --plane:#141414; --plane-2:#1C1C1E; --line:#2A2A2C;
+  --text:#F5F5F7; --text-2:#A1A1A6; --text-3:#8A8A8F;
+  --yellow:#FFD400; --yellow-ink:#1A1600; --red:#E60012;
+  --display:"Zen Kaku Gothic New","Hiragino Sans",sans-serif;
+  --body:"Noto Sans JP","Hiragino Sans",sans-serif;
+  --mono:"Geist Mono",ui-monospace,monospace;
+  --latin:Inter,"Noto Sans JP",sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --grid:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px) 0 0/24px 24px,
+         linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px) 0 0/24px 24px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);background-image:var(--grid);color:var(--text);font-family:var(--body);line-height:1.8;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+em{font-style:normal}
+
+/* ---------- 3 columns ---------- */
+.shell{display:grid;grid-template-columns:1fr minmax(0,460px) 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:32px}
+.side-l{align-items:flex-end}
+.side-l .inner{width:min(300px,100%);display:grid;gap:22px}
+.side-r{align-items:flex-start}
+.col{background:var(--plane);background-image:var(--grid);border-left:1px solid var(--line);border-right:1px solid var(--line);min-width:0}
+
+.logo{display:inline-flex;align-items:center;gap:10px;background:var(--ink);border:2px solid var(--yellow);border-radius:14px;padding:12px 18px;font-family:var(--display);font-weight:900;font-size:28px;letter-spacing:.06em;line-height:1;box-shadow:0 0 0 4px var(--ink)}
+.logo i{display:inline-block;width:22px;height:18px;border:3px solid var(--yellow);border-radius:4px;position:relative}
+.logo i::after{content:"";position:absolute;left:50%;top:5px;width:8px;height:3px;margin-left:-4px;background:var(--yellow);border-radius:2px}
+.logo b{color:var(--yellow)}
+.side-catch{font-family:var(--display);font-weight:900;font-size:17px;line-height:1.6;text-align:right}
+.side-catch em{color:var(--yellow)}
+
+.drawers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.drawer{background:var(--plane-2);border:1.5px solid var(--line);border-radius:8px;padding:8px 4px 6px;text-align:center;font-size:11px;font-weight:700;color:var(--text-2);animation:bob 3s ease-in-out infinite}
+.drawer:nth-child(2){animation-delay:.4s}.drawer:nth-child(3){animation-delay:.8s}.drawer:nth-child(4){animation-delay:1.2s}
+.drawer span{display:block;height:6px;width:40%;margin:0 auto 6px;border-radius:3px;background:var(--yellow)}
+@keyframes bob{50%{transform:translateY(-4px)}}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;border-radius:999px;padding:14px 22px;font-weight:900;text-decoration:none;line-height:1.3;transition:transform .2s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn small{display:block;font-size:11px;font-weight:700}
+.btn-y{background:var(--yellow);color:var(--yellow-ink);border:2px solid var(--yellow);box-shadow:0 0 0 4px var(--ink),0 0 0 6px var(--yellow)}
+.btn-d{background:var(--ink);color:var(--text);border:2px solid var(--text)}
+.btn .arw{flex:none;width:26px;height:26px;border-radius:50%;background:var(--yellow-ink);color:var(--yellow);display:grid;place-items:center;font-size:13px}
+.btn-d .arw{background:var(--yellow);color:var(--yellow-ink)}
+.note{font-size:11px;color:var(--text-3);text-align:center}
+
+.index h2{font-family:var(--latin);font-style:italic;font-weight:900;font-size:26px;letter-spacing:.02em;margin-bottom:14px}
+.index ol{list-style:none;display:grid;gap:10px}
+.index a{display:flex;gap:12px;text-decoration:none;font-size:13px;font-weight:700;color:var(--text-3);transition:color .2s}
+.index a span{font-family:var(--mono);font-size:10px;padding-top:3px}
+.index a.on{color:var(--text)}
+.index a.on span{color:var(--yellow)}
+
+/* ---------- center column ---------- */
+.hdr{position:sticky;top:0;z-index:5;padding:12px 14px;background:linear-gradient(var(--plane) 70%,transparent)}
+.hdr-in{display:flex;justify-content:space-between;align-items:center;background:var(--ink);border:2px solid var(--yellow);border-radius:14px;padding:8px 8px 8px 16px}
+.hdr .logo{border:0;padding:0;font-size:20px;box-shadow:none}
+.hdr .logo i{width:18px;height:15px;border-width:2.5px}
+.hdr .logo i::after{top:4px}
+.hdr a.buy{background:var(--yellow);color:var(--yellow-ink);font-weight:900;font-size:13px;text-decoration:none;border-radius:999px;padding:7px 16px}
+
+.marquee{overflow:hidden;padding:6px 0 14px}
+.marquee .track{display:flex;gap:8px;width:max-content;animation:marquee 40s linear infinite}
+.marquee.rev .track{animation-direction:reverse}
+.chip{white-space:nowrap;border:1.5px solid var(--text);border-radius:999px;padding:4px 14px;font-size:12px;font-weight:700;background:var(--ink)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+.word-band{overflow:hidden;background:var(--yellow);color:var(--yellow-ink);padding:6px 0;margin:56px 0 0;transform:rotate(-2deg) scale(1.05)}
+.word-band .track{display:flex;gap:28px;width:max-content;animation:marquee 26s linear infinite;font-family:var(--latin);font-style:italic;font-weight:900;font-size:20px}
+
+section{padding:56px 18px 24px;scroll-margin-top:72px}
+.eyebrow{display:block;text-align:center;font-family:var(--latin);font-style:italic;font-weight:900;font-size:14px;letter-spacing:.12em;color:var(--yellow)}
+h2.h{font-family:var(--display);font-weight:900;font-size:28px;line-height:1.45;text-align:center;margin:8px 0 24px}
+h2.h em{color:var(--yellow)}
+.box{display:inline;background:var(--ink);color:var(--text);padding:2px 10px;box-decoration-break:clone;-webkit-box-decoration-break:clone;line-height:2}
+.box.y{background:var(--yellow);color:var(--yellow-ink)}
+.box.r{background:var(--red);color:#fff}
+p.lead{font-size:15px;line-height:2;color:var(--text)}
+
+/* FV */
+.fv{padding:4px 14px 0}
+.fv-card{position:relative;border:2px solid var(--text);border-radius:22px;background:var(--plane-2);background-image:var(--grid);padding:22px 18px 0;overflow:hidden}
+.fv-pre{text-align:center;font-weight:900;font-size:13px}
+.fv h1{font-family:var(--display);font-weight:900;font-size:34px;line-height:1.35;margin:10px 0 16px;letter-spacing:.01em}
+.fv h1 .big{display:block;font-size:56px;line-height:1.15;color:var(--yellow);letter-spacing:-.01em}
+.fv h1 .big q{quotes:"\201D" "\201D"}
+.fv h1 .big q::before,.fv h1 .big q::after{color:var(--text)}
+.fv-stage{position:relative;height:260px;margin:0 -18px}
+.term{position:absolute;left:16px;top:6px;z-index:2;width:228px;background:#000;border:1.5px solid #333;border-radius:10px;padding:10px 12px;font-family:var(--mono);font-size:11px;line-height:1.7;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.term .dots{display:flex;gap:5px;margin-bottom:6px}
+.term .dots i{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.term .dots i:nth-child(2){background:var(--yellow)}.term .dots i:nth-child(3){background:#3DDC84}
+.term .ok{color:var(--yellow)}
+.cur{display:inline-block;width:7px;height:12px;background:var(--yellow);vertical-align:-1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.fan{position:absolute;right:-6px;bottom:44px;width:250px;height:190px}
+.fan img{position:absolute;width:190px;aspect-ratio:16/9;object-fit:cover;border:3px solid var(--ink);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.55)}
+.fan img:nth-child(1){right:40px;top:0;transform:rotate(-8deg)}
+.fan img:nth-child(2){right:4px;top:44px;transform:rotate(5deg)}
+.fan img:nth-child(3){right:30px;top:96px;transform:rotate(-2deg);border-color:var(--yellow);animation:float 4s ease-in-out infinite}
+.fan .tc{position:absolute;right:38px;top:178px;z-index:3;background:var(--yellow);color:var(--yellow-ink);font-family:var(--mono);font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px}
+@keyframes float{50%{transform:rotate(-2deg) translateY(-6px)}}
+.fv-tags{position:absolute;left:16px;bottom:18px;z-index:3;display:grid;gap:6px;font-weight:900;font-size:16px}
+.fv-tags span{width:max-content;background:var(--ink);padding:3px 10px;border:1.5px solid var(--text)}
+.fv-tags em{color:var(--yellow)}
+.fv-foot{display:flex;justify-content:space-between;align-items:center;background:var(--ink);margin:0 -18px;padding:14px 18px;border-top:2px solid var(--text)}
+.fv-foot .logo{border:0;padding:0;font-size:26px;box-shadow:none}
+.fv-foot small{font-family:var(--mono);font-size:9px;line-height:1.5;text-align:right;color:var(--text-2)}
+.cta{display:grid;gap:16px;padding:28px 14px 8px}
+
+/* about cards */
+.swipe{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 18px 14px;margin:0 -18px;scrollbar-width:none}
+.swipe::-webkit-scrollbar{display:none}
+.kcard{flex:none;width:76%;scroll-snap-align:center;border:2px solid var(--text);border-radius:16px;overflow:hidden;background:var(--plane-2)}
+.kcard header{padding:12px 14px;font-family:var(--display);font-weight:900;font-size:20px;background:var(--yellow);color:var(--yellow-ink);display:flex;justify-content:space-between;align-items:baseline}
+.kcard header small{font-family:var(--latin);font-style:italic;font-size:12px}
+.kcard:nth-child(2) header{background:var(--red);color:#fff}
+.kcard:nth-child(3) header{background:var(--text);color:var(--ink)}
+.kcard:nth-child(4) header{background:#3A3A3C;color:var(--text)}
+.kcard img{aspect-ratio:16/9;object-fit:cover;width:100%;border-bottom:2px solid var(--text)}
+.kcard p{padding:10px 14px 14px;font-size:13px;font-weight:700;line-height:1.7}
+.kcard p span{display:block;font-family:var(--mono);font-size:11px;color:var(--yellow);font-weight:500}
+.swipe-hint{text-align:center;font-size:11px;color:var(--text-3)}
+
+/* promises */
+.why-mark{display:flex;justify-content:center;margin:-8px 0 8px}
+.why-mark .logo{font-size:20px}
+.promise{padding:44px 0 36px;border-bottom:1px dashed var(--line)}
+.promise:last-child{border-bottom:0}
+.pnum{display:flex;align-items:flex-end;justify-content:center;gap:10px;font-family:var(--latin);font-style:italic;font-weight:900;line-height:.8}
+.pnum small{font-size:16px;letter-spacing:.08em;padding-bottom:6px}
+.pnum b{font-size:84px;color:var(--yellow);-webkit-text-stroke:0}
+.habit{position:relative;margin:18px 6px 0;border:2px solid var(--text);border-radius:12px;background:var(--ink);padding:20px 14px 14px;text-align:center;font-family:var(--display);font-weight:900;font-size:19px;line-height:1.55}
+.habit::before{content:"TRUTH OF REFS";position:absolute;left:50%;top:-11px;transform:translateX(-50%);background:var(--plane);padding:0 10px;font-family:var(--latin);font-style:italic;font-size:11px;letter-spacing:.12em;color:var(--text-2)}
+.down{width:2px;height:40px;margin:10px auto 0;background:repeating-linear-gradient(var(--text) 0 4px,transparent 4px 8px);position:relative;animation:dash 1s linear infinite}
+.down::after{content:"";position:absolute;left:-5px;bottom:-6px;border:6px solid transparent;border-top:8px solid var(--text)}
+@keyframes dash{to{background-position:0 8px}}
+.dakara{display:block;width:max-content;margin:8px auto 14px;background:var(--yellow);color:var(--yellow-ink);font-weight:900;font-size:15px;border-radius:999px;padding:4px 18px}
+.answer{text-align:center;font-family:var(--display);font-weight:900;font-size:24px;line-height:1.3;display:grid;gap:8px;justify-items:center}
+.answer span{background:var(--ink);padding:4px 12px;border:1.5px solid var(--line)}
+.answer em{color:var(--yellow)}
+.win{margin:22px 4px 18px;border:2px solid var(--text);border-radius:12px;overflow:hidden;background:var(--ink)}
+.win-bar{display:flex;align-items:center;gap:6px;padding:8px 12px;background:#000;border-bottom:1.5px solid var(--line);font-family:var(--mono);font-size:12px}
+.win-bar i{width:9px;height:9px;border-radius:50%;background:var(--red)}
+.win-bar i:nth-child(2){background:var(--yellow)}.win-bar i:nth-child(3){background:#3DDC84;margin-right:8px}
+.win-body{padding:14px;font-size:13px;background-image:var(--grid)}
+.win-body .cm{font-family:var(--mono);color:var(--text-3);font-size:11px;margin-bottom:8px}
+.win .done{margin-top:10px;text-align:center;font-weight:900;color:var(--yellow)}
+.sm{font-size:11px;color:var(--text-3)}
+
+/* window contents */
+.tl{position:relative;height:42px;border-radius:6px;background:#202022;margin:8px 0 4px;overflow:hidden}
+.tl .rng{position:absolute;left:18%;width:28%;top:0;bottom:0;background:rgba(255,212,0,.25);border-left:3px solid var(--yellow);border-right:3px solid var(--yellow)}
+.tl .ph{position:absolute;top:0;bottom:0;width:2px;background:var(--red);left:18%;animation:play 2.8s linear infinite}
+@keyframes play{to{left:46%}}
+.tl-lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-3)}
+.memo{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center;margin-top:8px}
+.memo img{border-radius:4px;aspect-ratio:16/9;object-fit:cover}
+.memo b{display:block;font-size:13px}
+.memo code{font-family:var(--mono);font-size:11px;color:var(--yellow)}
+.typing{border-left:2px solid var(--yellow);padding-left:8px;margin-top:10px;font-weight:700}
+.dtabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.dtabs span{border:1.5px solid var(--line);border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+.dtabs span.on{background:var(--yellow);border-color:var(--yellow);color:var(--yellow-ink)}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.dgrid img{border-radius:4px;aspect-ratio:16/9;object-fit:cover}
+.md{font-family:var(--mono);font-size:11.5px;line-height:1.75;white-space:pre-wrap;word-break:break-all}
+.md .h1{color:var(--yellow);font-weight:700}
+.md .h2{color:var(--text);font-weight:700}
+.md .u{color:var(--text-3)}
+.copied{display:inline-block;margin-top:8px;background:var(--yellow);color:var(--yellow-ink);font-weight:900;font-size:12px;padding:2px 10px;border-radius:4px}
+.ai{display:grid;gap:6px;margin-top:10px}
+.ai span{border:1.5px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;display:flex;justify-content:space-between}
+.ai span b{color:var(--yellow)}
+
+.must{text-align:center;padding:40px 14px 10px}
+.must p{font-family:var(--display);font-weight:900;font-size:18px}
+.must strong{display:block;font-family:var(--display);font-weight:900;font-size:44px;line-height:1.2;color:var(--yellow);margin:4px 0 14px}
+
+/* scenes */
+.scenes{display:grid;gap:16px}
+.scene{border:2px solid var(--text);border-radius:14px;background:var(--plane-2);overflow:hidden}
+.scene .top{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--ink);border-bottom:1.5px solid var(--line);font-family:var(--latin);font-style:italic;font-weight:900;font-size:12px;color:var(--text-2)}
+.scene .top span{font-family:var(--body);font-style:normal;font-size:11px}
+.scene h3{padding:14px 14px 0;font-family:var(--display);font-weight:900;font-size:21px;line-height:1.45}
+.scene h3 em{color:var(--yellow)}
+.scene p{padding:8px 14px 16px;font-size:13px;color:var(--text-2);line-height:1.9}
+
+/* price */
+.tiers{display:grid;gap:12px}
+.tier{display:flex;justify-content:space-between;align-items:center;border:2px solid var(--line);border-radius:14px;padding:14px 16px;background:var(--plane-2)}
+.tier.now{border-color:var(--yellow);background:var(--ink);box-shadow:0 0 0 4px var(--plane),0 0 0 6px var(--yellow)}
+.tier b{font-family:var(--display);font-size:15px}
+.tier small{display:block;font-size:11px;color:var(--text-3)}
+.tier .yen{font-family:var(--latin);font-weight:900;font-size:30px;letter-spacing:-.02em}
+.tier.now .yen{color:var(--yellow)}
+.tier .yen span{font-family:var(--body);font-size:13px;margin-left:2px}
+.badge{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:900;padding:1px 8px;border-radius:4px;margin-left:6px;vertical-align:2px}
+.price-note{margin-top:14px;font-size:13px;color:var(--text-2);text-align:center}
+
+/* flow */
+.flow{list-style:none;counter-reset:f;display:grid;gap:0}
+.flow li{position:relative;display:grid;grid-template-columns:48px 1fr;gap:12px;padding-bottom:20px}
+.flow li::before{counter-increment:f;content:counter(f,decimal-leading-zero);display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--ink);border:2px solid var(--yellow);font-family:var(--latin);font-style:italic;font-weight:900;font-size:16px;color:var(--yellow)}
+.flow li::after{content:"";position:absolute;left:23px;top:50px;bottom:2px;width:2px;background:repeating-linear-gradient(var(--line) 0 4px,transparent 4px 8px)}
+.flow li:last-child::after{display:none}
+.flow li:last-child::before{background:var(--yellow);color:var(--yellow-ink)}
+.flow b{display:block;font-family:var(--display);font-weight:900;font-size:17px;padding-top:10px}
+.flow p{font-size:13px;color:var(--text-2);line-height:1.85}
+
+/* faq */
+details{border-bottom:1px solid var(--line);padding:14px 2px}
+summary{list-style:none;cursor:pointer;font-weight:900;font-size:15px;display:flex;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"Q";font-family:var(--latin);font-style:italic;color:var(--yellow)}
+details p{margin-top:8px;padding-left:22px;font-size:13px;color:var(--text-2)}
+
+.last{text-align:center;padding:56px 14px 30px}
+.last h2{font-family:var(--display);font-weight:900;font-size:30px;line-height:1.4;margin-bottom:20px}
+.last h2 em{color:var(--yellow)}
+footer{padding:28px 18px 120px;text-align:center;font-size:11px;color:var(--text-3);border-top:1px solid var(--line)}
+footer .logo{font-size:20px;margin-bottom:12px}
+
+.mbar{display:none}
+
+/* reveal */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .shell{grid-template-columns:minmax(0,1fr) minmax(0,460px) minmax(0,1fr)}
+  .side-r{display:none}
+  .shell{grid-template-columns:minmax(0,1fr) minmax(0,460px)}
+}
+@media (max-width:760px){
+  .shell{display:block}
+  .side{display:none}
+  .col{border:0}
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:9;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--ink) 30%)}
+  .mbar .btn{width:auto;flex:1 1 0;min-width:0;padding:12px 14px;font-size:14px;box-shadow:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- left: fixed brand + CTA -->
+  <aside class="side side-l" aria-label="購入">
+    <div class="inner">
+      <div class="logo"><i></i><span>ヒキ<b>ダシ</b></span></div>
+      <p class="side-catch">まだ参考を<br><em>"URLだけ"</em>で渡してるの？</p>
+      <div class="drawers" aria-hidden="true">
+        <div class="drawer"><span></span>デザイン</div>
+        <div class="drawer"><span></span>冒頭</div>
+        <div class="drawer"><span></span>演出</div>
+        <div class="drawer"><span></span>ネタ</div>
+      </div>
+      <a class="btn btn-y" href="#price"><span><small>先着10部 発売記念</small>Brainで購入 ¥4,980</span><span class="arw">→</span></a>
+      <a class="btn btn-d" href="#price"><span>Tipsで購入</span><span class="arw">→</span></a>
+      <p class="note">販売ページは準備中です</p>
+    </div>
+  </aside>
+
+  <!-- center: the LP -->
+  <main class="col">
+    <div class="hdr"><div class="hdr-in">
+      <div class="logo"><i></i><span>ヒキ<b>ダシ</b></span></div>
+      <a class="buy" href="#price">購入する ↓</a>
+    </div></div>
+
+    <div class="marquee" aria-hidden="true"><div class="track" id="tags"></div></div>
+
+    <div class="fv" id="top">
+      <div class="fv-card">
+        <p class="fv-pre">＼ 参考動画を集める、すべての作り手へ ／</p>
+        <h1>まだ参考を<span class="big"><q>URLだけ</q></span>で渡してるの？</h1>
+        <div class="fv-stage">
+          <div class="term" aria-hidden="true">
+            <div class="dots"><i></i><i></i><i></i></div>
+            <div>$ hikidashi --open</div>
+            <div id="tline">引き出しを開いています...<span class="cur"></span></div>
+          </div>
+          <div class="fan" aria-hidden="true">
+            <img src="assets/thumbs/t04.jpg" alt="">
+            <img src="assets/thumbs/t07.jpg" alt="">
+            <img src="assets/thumbs/t00.jpg" alt="">
+            <span class="tc">0:05 – 0:28</span>
+          </div>
+          <div class="fv-tags">
+            <span>参考の<em>"秒"</em>を引き出しに</span>
+            <span><em>そのまま渡せる</em>資料に</span>
+          </div>
+        </div>
+        <div class="fv-foot">
+          <div class="logo"><i></i><span>ヒキ<b>ダシ</b></span></div>
+          <small>REFERENCE<br>DRAWER FOR<br>VIDEO MAKERS</small>
+        </div>
+      </div>
+      <p class="sm" style="text-align:center;margin-top:8px">サムネは AI で作った作例です</p>
+    </div>
+
+    <div class="cta">
+      <a class="btn btn-y" href="#price"><span><small>先着10部 発売記念</small>Brainで購入 ¥4,980</span><span class="arw">→</span></a>
+      <a class="btn btn-d" href="#price"><span>Tipsで購入</span><span class="arw">→</span></a>
+    </div>
+
+    <div class="word-band" aria-hidden="true"><div class="track" id="band1"></div></div>
+
+    <!-- 02 about -->
+    <section id="about">
+      <span class="eyebrow rv">WHAT'S INSIDE</span>
+      <h2 class="h rv"><em>ヒキダシ</em>とは？</h2>
+      <p class="lead rv" style="text-align:center;margin-bottom:22px"><span class="box y">良かった数秒</span>だけを残して、<br><span class="box">そのまま人に渡せる</span><br>参考動画の引き出しです</p>
+      <div class="swipe" id="swipe">
+        <article class="kcard"><header>#デザイン<small>Design</small></header><img src="assets/thumbs/t01.jpg" alt="" loading="lazy"><p>サムネ・テロップの見せ方<span>0:00 — 行ごとに色の箱で読ませる</span></p></article>
+        <article class="kcard"><header>#冒頭<small>Hook</small></header><img src="assets/thumbs/t05.jpg" alt="" loading="lazy"><p>最初の数秒のつかみ<span>0:05–0:28 — 5秒で結論を言う</span></p></article>
+        <article class="kcard"><header>#演出<small>Direction</small></header><img src="assets/thumbs/t08.jpg" alt="" loading="lazy"><p>カット・間・効果音<span>2:40–3:05 — セリフ1つで引き込む</span></p></article>
+        <article class="kcard"><header>#ネタ<small>Topic</small></header><img src="assets/thumbs/t09.jpg" alt="" loading="lazy"><p>企画・切り口のストック<span>0:00–0:15 — 対立で引く企画</span></p></article>
+      </div>
+      <p class="swipe-hint">← 横にスワイプ →</p>
+    </section>
+
+    <div class="word-band" aria-hidden="true" style="transform:rotate(2deg) scale(1.05)"><div class="track" id="band2"></div></div>
+
+    <!-- 03 promises -->
+    <section id="why">
+      <span class="eyebrow rv">WHY "SECONDS"</span>
+      <h2 class="h rv">なぜ<em>"秒"</em>で渡すと<br>伝わるのか？</h2>
+      <div class="why-mark rv"><div class="logo"><i></i><span>ヒキ<b>ダシ</b></span></div></div>
+      <p class="rv" style="text-align:center;font-weight:900;font-size:17px;margin-top:20px">参考が伝わる <span class="box y">5つの理由</span></p>
+
+      <div class="promise">
+        <div class="pnum rv"><small>REASON</small><b>01</b></div>
+        <p class="habit rv">URLだけでは<br>「どこが良いか」が伝わらない</p>
+        <div class="down"></div><span class="dakara">だから</span>
+        <div class="answer rv"><span><em>良い秒だけ</em>を</span><span>IN と OUT で切り出す</span></div>
+        <div class="win rv"><div class="win-bar"><i></i><i></i><i></i>clip_range.loop</div><div class="win-body">
+          <div class="cm">// この区間だけがループします</div>
+          <div class="tl"><div class="rng"></div><div class="ph"></div></div>
+          <div class="tl-lbl"><span>0:00</span><span>0:05 ▶ 0:28</span><span>1:00</span></div>
+        </div></div>
+        <p class="lead rv">参考動画を送っても、相手は頭から見て「どこのこと？」と聞き返します。良いところを IN と OUT で区切っておけば、開いた瞬間にその区間だけがループ。説明の手間がなくなります。</p>
+      </div>
+
+      <div class="promise">
+        <div class="pnum rv"><small>REASON</small><b>02</b></div>
+        <p class="habit rv">1か月前に保存した参考の<br>「良かった理由」は思い出せない</p>
+        <div class="down"></div><span class="dakara">だから</span>
+        <div class="answer rv"><span><em>選んだ理由</em>を</span><span>1行で残す</span></div>
+        <div class="win rv"><div class="win-bar"><i></i><i></i><i></i>memo.txt</div><div class="win-body">
+          <div class="memo"><img src="assets/thumbs/t00.jpg" alt="" loading="lazy"><div><b>結論から入る対談の冒頭</b><code>0:05–0:28 ・ 冒頭 ・ ★★★★</code></div></div>
+          <p class="typing" id="typing">最初の5秒で結論、そのあと理由を3つ予告</p>
+        </div></div>
+        <p class="lead rv">後で見返したとき、何が良かったのか分からない参考は使えません。保存するときに1行だけ理由を書いておけば、何週間たっても、あの数秒の意味まで戻ってきます。</p>
+      </div>
+
+      <div class="promise">
+        <div class="pnum rv"><small>REASON</small><b>03</b></div>
+        <p class="habit rv">集めた参考は<br>すぐに、ごちゃまぜになる</p>
+        <div class="down"></div><span class="dakara">だから</span>
+        <div class="answer rv"><span><em>4つの引き出し</em>に</span><span>最初から分けておく</span></div>
+        <div class="win rv"><div class="win-bar"><i></i><i></i><i></i>drawers/</div><div class="win-body">
+          <div class="dtabs" id="dtabs"><span class="on">デザイン 3</span><span>冒頭 4</span><span>演出 2</span><span>ネタ 5</span></div>
+          <div class="dgrid" id="dgrid"><img src="assets/thumbs/t01.jpg" alt="" loading="lazy"><img src="assets/thumbs/t06.jpg" alt="" loading="lazy"><img src="assets/thumbs/t10.jpg" alt="" loading="lazy"><img src="assets/thumbs/t11.jpg" alt="" loading="lazy"></div>
+        </div></div>
+        <p class="lead rv">デザイン・冒頭・演出・ネタ。YouTube の参考は、だいたいこの4つに分かれます。タブを押せば、その引き出しの参考だけが残ります。</p>
+      </div>
+
+      <div class="promise">
+        <div class="pnum rv"><small>REASON</small><b>04</b></div>
+        <p class="habit rv">参考資料づくりに<br>毎回30分かけていられない</p>
+        <div class="down"></div><span class="dakara">だから</span>
+        <div class="answer rv"><span><em>ボタン1つ</em>で</span><span>そのまま渡せる資料に</span></div>
+        <div class="win rv"><div class="win-bar"><i></i><i></i><i></i>参考資料.md</div><div class="win-body">
+<div class="md"><span class="h1"># 参考資料：来週の企画</span>
+<span class="h2">## 冒頭（2）</span>
+- 5秒で結論を言う冒頭　0:05–0:28
+  <span class="u">youtube.com/watch?v=…&amp;t=5s</span>
+  良いところ：最初の5秒で結論
+<span class="h2">## デザイン（2）</span>
+- 数字を左上に置くサムネ　0:00
+  良いところ：数字だけ黄色</div>
+          <span class="copied">✓ コピーしました</span>
+        </div></div>
+        <p class="lead rv">「参考資料をコピー」を押すと、種類ごとに分かれた資料ができあがります。リンクはどれもその秒から開くので、Chatwork・Slack・Notion にそのまま貼れます。</p>
+      </div>
+
+      <div class="promise">
+        <div class="pnum rv"><small>REASON</small><b>05</b></div>
+        <p class="habit rv">参考の分析まで<br>自分ひとりではやりきれない</p>
+        <div class="down"></div><span class="dakara">だから</span>
+        <div class="answer rv"><span><em>AIへのお願い</em>ごと</span><span>コピーできる</span></div>
+        <div class="win rv"><div class="win-bar"><i></i><i></i><i></i>request_to_ai.txt</div><div class="win-body">
+          <div class="cm">// Claude や ChatGPT に貼るだけ</div>
+          <p style="font-size:13px;font-weight:700">種類ごとに、参考どうしの共通点を3つずつ挙げてください。冒頭の台本の型、テロップ、サムネの方向を具体的に。</p>
+          <div class="ai"><span>冒頭の型<b>3つ</b></span><span>テロップの共通点<b>3つ</b></span><span>サムネの方向<b>3つ</b></span></div>
+        </div></div>
+        <p class="lead rv">ヒキダシ自体には AI を入れていません。そのかわり、分析のお願い文をつけてコピーできます。AI の利用料がかからないので、月額なしの買い切りにしました。</p>
+      </div>
+    </section>
+
+    <div class="must">
+      <p class="rv">参考の受け渡しには</p>
+      <strong class="rv">ヒキダシが必須!!</strong>
+      <div class="cta" style="padding:0">
+        <a class="btn btn-y" href="#price"><span><small>先着10部 発売記念</small>Brainで購入 ¥4,980</span><span class="arw">→</span></a>
+        <a class="btn btn-d" href="#price"><span>Tipsで購入</span><span class="arw">→</span></a>
+      </div>
+    </div>
+
+    <!-- 04 scenes -->
+    <section id="scenes">
+      <span class="eyebrow rv">SCENES</span>
+      <h2 class="h rv">こんな場面で<br><em>使えます</em></h2>
+      <div class="scenes">
+        <article class="scene rv"><div class="top">Scene 01<span>ディレクター → 編集者</span></div><h3>「冒頭はこんな感じで」が<br><em>1回で</em>伝わる</h3><p>冒頭の参考を3本、秒数つきで渡すだけ。編集者は該当の数秒だけを見て、すぐ作業に入れます。</p></article>
+        <article class="scene rv"><div class="top">Scene 02<span>編集者 → クライアント</span></div><h3>サムネの方向を<br><em>先に</em>すり合わせる</h3><p>デザインの引き出しから候補を並べて共有。「この色の箱」「この数字の置き方」と、指さしで決められます。</p></article>
+        <article class="scene rv"><div class="top">Scene 03<span>自分のネタ帳</span></div><h3>伸びた企画の切り口を<br><em>ためておく</em></h3><p>ネタの引き出しに、見つけた企画を1行メモと一緒に。企画会議の前に開けば、そのまま候補の一覧です。</p></article>
+      </div>
+      <p class="sm" style="margin-top:12px;text-align:center">※使い方の例です</p>
+    </section>
+
+    <!-- 05 price -->
+    <section id="price">
+      <span class="eyebrow rv">PRICE</span>
+      <h2 class="h rv">買い切り。<br><em>月額なし。</em></h2>
+      <div class="tiers">
+        <div class="tier now rv"><div><b>先着10部<span class="badge">いま</span></b><small>発売記念の値段</small></div><div class="yen">4,980<span>円</span></div></div>
+        <div class="tier rv"><div><b>11〜40部目</b></div><div class="yen">7,980<span>円</span></div></div>
+        <div class="tier rv"><div><b>41部目から</b><small>通常の値段</small></div><div class="yen">9,800<span>円</span></div></div>
+      </div>
+      <p class="price-note">Windows・Mac のブラウザで使えます。インストールは要りません。<br>購入は Brain か Tips から（販売ページは準備中です）。</p>
+      <div class="cta">
+        <a class="btn btn-y" href="#price"><span><small>先着10部 発売記念</small>Brainで購入 ¥4,980</span><span class="arw">→</span></a>
+        <a class="btn btn-d" href="#price"><span>Tipsで購入</span><span class="arw">→</span></a>
+      </div>
+    </section>
+
+    <!-- 06 flow -->
+    <section id="flow">
+      <span class="eyebrow rv">FLOW</span>
+      <h2 class="h rv">参考が<em>伝わる</em>までの<br>流れ</h2>
+      <ol class="flow">
+        <li class="rv"><div><b>購入する</b><p>Brain か Tips で購入すると、アプリの URL とライセンスコードが届きます。</p></div></li>
+        <li class="rv"><div><b>ブラウザで開く</b><p>Chrome や Edge で開くだけ。インストールも登録も要りません。</p></div></li>
+        <li class="rv"><div><b>URL を貼る</b><p>見つけた参考動画の URL を貼ります。動画はダウンロードしません。</p></div></li>
+        <li class="rv"><div><b>良い秒を IN / OUT で区切る</b><p>I と O のキーで区切ると、その区間だけがループします。</p></div></li>
+        <li class="rv"><div><b>引き出しにしまう</b><p>デザイン・冒頭・演出・ネタから選んで、理由を1行。</p></div></li>
+        <li class="rv"><div><b>参考資料をコピー</b><p>種類ごとに分かれた資料が、秒数つきのリンクでできあがります。</p></div></li>
+        <li class="rv"><div><b>1回で伝わる</b><p>貼って渡すだけ。「どこのこと？」がなくなります。</p></div></li>
+      </ol>
+    </section>
+
+    <!-- 07 faq -->
+    <section id="faq">
+      <span class="eyebrow rv">FAQ</span>
+      <h2 class="h rv">よくある質問</h2>
+      <details><summary>動画をダウンロードしますか？</summary><p>しません。YouTube の動画はリンクと秒数だけを残し、再生は YouTube の公式プレイヤーです。</p></details>
+      <details><summary>データはどこに保存されますか？</summary><p>お使いのブラウザの中だけです。外のサーバーには送りません。ブラウザのデータを消すと消えるので、アプリの中からときどきバックアップを書き出してください。</p></details>
+      <details><summary>Windows でも Mac でも使えますか？</summary><p>使えます。Chrome や Edge などのブラウザで動きます。</p></details>
+      <details><summary>伸びた動画を探す機能はありますか？</summary><p>ありません。ヒキダシは、見つけた動画を残して渡すための道具です。リサーチの表やツールと一緒に使ってください。</p></details>
+      <details><summary>返金はできますか？</summary><p>デジタル商品のため、購入後の返金はできません。購入前にこのページと販売ページの説明をご確認ください。</p></details>
+    </section>
+
+    <div class="last">
+      <h2 class="rv">参考の引き出しを、<br><em>増やそう。</em></h2>
+      <div class="cta" style="padding:0">
+        <a class="btn btn-y" href="#price"><span><small>先着10部 発売記念</small>Brainで購入 ¥4,980</span><span class="arw">→</span></a>
+        <a class="btn btn-d" href="#price"><span>Tipsで購入</span><span class="arw">→</span></a>
+      </div>
+    </div>
+
+    <footer>
+      <div class="logo"><i></i><span>ヒキ<b>ダシ</b></span></div>
+      <p>サポート：メール（準備中）</p>
+      <p>YouTube は Google LLC の商標です。ヒキダシは YouTube とは関係のない、YouTube 向けの道具です。</p>
+      <p>© ヒキダシ</p>
+    </footer>
+  </main>
+
+  <!-- right: index -->
+  <nav class="side side-r index" aria-label="目次">
+    <h2>INDEX</h2>
+    <ol id="idx">
+      <li><a href="#top"><span>01</span>TOP</a></li>
+      <li><a href="#about"><span>02</span>ヒキダシとは？</a></li>
+      <li><a href="#why"><span>03</span>伝わる5つの理由</a></li>
+      <li><a href="#scenes"><span>04</span>使える場面</a></li>
+      <li><a href="#price"><span>05</span>値段</a></li>
+      <li><a href="#flow"><span>06</span>使うまでの流れ</a></li>
+      <li><a href="#faq"><span>07</span>よくある質問</a></li>
+    </ol>
+  </nav>
+</div>
+
+<div class="mbar">
+  <a class="btn btn-y" href="#price">Brainで購入 ¥4,980</a>
+  <a class="btn btn-d" href="#price" style="flex:0 0 30%">Tips</a>
+</div>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function fill(id, words, cls){
+    var el = document.getElementById(id), html = '';
+    for (var r = 0; r < 2; r++) words.forEach(function(w){ html += cls ? '<span class="'+cls+'">'+w+'</span>' : '<span>'+w+'</span>'; });
+    el.innerHTML = html;
+  }
+  fill('tags', ['#サムネの参考','#冒頭5秒','#テロップ','#演出','#ネタ帳','#秒数つきリンク','#参考資料','#AIに分析','#Windows対応','#買い切り'], 'chip');
+  fill('band1', ['What\'s inside?','What\'s inside?','What\'s inside?','What\'s inside?','What\'s inside?','What\'s inside?']);
+  fill('band2', ['Why seconds?','Why seconds?','Why seconds?','Why seconds?','Why seconds?','Why seconds?']);
+
+  // terminal line
+  var tline = document.getElementById('tline');
+  if (!reduce) setTimeout(function(){
+    tline.innerHTML = '<span class="ok">&gt; 参考資料 生成完了</span><span class="cur"></span>';
+  }, 2400);
+
+  // reveal: anything at or above the fold, so fast scrolls never leave blanks
+  var rv = [].slice.call(document.querySelectorAll('.rv'));
+  function reveal(){
+    var lim = innerHeight * .92;
+    rv = rv.filter(function(el){
+      if (reduce || el.getBoundingClientRect().top < lim){ el.classList.add('in'); return false; }
+      return true;
+    });
+  }
+  addEventListener('scroll', reveal, {passive:true}); addEventListener('resize', reveal); reveal();
+
+  // index highlight
+  var links = document.querySelectorAll('#idx a');
+  var secs = [].map.call(links, function(a){ return document.querySelector(a.getAttribute('href')); });
+  function spy(){
+    var y = innerHeight * .35, cur = 0;
+    secs.forEach(function(s, i){ if (s && s.getBoundingClientRect().top < y) cur = i; });
+    links.forEach(function(a, i){ a.classList.toggle('on', i === cur); });
+  }
+  addEventListener('scroll', spy, {passive:true}); spy();
+
+  // drawer tabs cycle
+  var tabs = document.querySelectorAll('#dtabs span'), grid = document.getElementById('dgrid');
+  var sets = [['t01','t06','t10','t11'],['t00','t05','t02','t03'],['t08','t02','t09','t04'],['t07','t09','t03','t11']];
+  var ti = 0;
+  if (!reduce) setInterval(function(){
+    ti = (ti + 1) % 4;
+    tabs.forEach(function(t, i){ t.classList.toggle('on', i === ti); });
+    grid.querySelectorAll('img').forEach(function(im, i){ im.src = 'assets/thumbs/' + sets[ti][i] + '.jpg'; });
+  }, 2200);
+})();
+</script>
+</body>
+</html>
