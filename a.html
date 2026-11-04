@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ヒキダシ — 参考は、秒で渡す。</title>
+<meta name="description" content="ビジネス系YouTubeのディレクター・編集者のための参考帳。参考動画の「どの秒が良いか」を残して、サムネで並べて、その秒から開く参考資料のまま渡せます。買い切り・月額なし。">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0A0A">
+<meta property="og:title" content="ヒキダシ — 参考は、秒で渡す。">
+<meta property="og:description" content="参考動画の「どの秒が良いか」を残して、そのまま渡す。買い切り・月額なし。">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0A0A'/%3E%3Crect x='14' y='38' width='36' height='6' rx='3' fill='%23FFD400'/%3E%3Crect x='14' y='20' width='36' height='6' rx='3' fill='%23F5F5F7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0A0A; --plane:#141414; --plane-2:#1C1C1E; --line:#2A2A2C;
+  --text:#F5F5F7; --text-2:#A1A1A6; --text-3:#8A8A8F;
+  --yellow:#FFD400; --yellow-ink:#1A1600; --red:#E60012;
+  --display:"Zen Kaku Gothic New","Hiragino Sans",sans-serif;
+  --body:"Noto Sans JP","Hiragino Sans",sans-serif;
+  --mono:"Geist Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --pad:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box}
+html{background:var(--ink);color-scheme:dark}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.8;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--yellow);color:var(--yellow-ink)}
+a{color:inherit;text-underline-offset:.25em}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;border-radius:6px}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:#2c2c2e;border-radius:10px;border:2px solid var(--ink)}
+.nb{display:inline-block}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.82);backdrop-filter:saturate(1.4) blur(18px);-webkit-backdrop-filter:saturate(1.4) blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-in{max-width:1180px;margin:0 auto;padding:0 var(--pad);height:52px;display:flex;align-items:center;gap:28px;font-size:13px}
+.word{font-family:var(--display);font-weight:900;font-size:17px;letter-spacing:.14em;text-decoration:none;display:flex;align-items:center;gap:9px}
+.word i{display:inline-grid;gap:3px;width:15px}.word i::before,.word i::after{content:"";height:3px;border-radius:2px;background:var(--text)}.word i::after{background:var(--yellow)}
+.nav-links{display:flex;gap:26px;margin-left:auto;color:var(--text-2)}
+.nav-links a{text-decoration:none;transition:color .2s}.nav-links a:hover{color:var(--text)}
+.nav-buy{color:var(--yellow);text-decoration:none;font-weight:700}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .3s var(--ease),background .2s,color .2s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-y{background:var(--yellow);color:var(--yellow-ink)}
+.btn-y:hover{background:#FFE14D}
+.btn-q{color:var(--text);box-shadow:inset 0 0 0 1px #3A3A3C}
+.btn-q:hover{box-shadow:inset 0 0 0 1px var(--text-2)}
+.btn small{font-family:var(--mono);font-weight:500;font-size:13px;opacity:.75}
+.btn[aria-disabled="true"]{cursor:default}
+.pending{font-size:13px;color:var(--text-3);margin-top:14px}
+
+
+/* storm: the scroll scene */
+.storm{position:relative;height:360vh}
+.storm-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+#stormCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.storm-hero{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--pad);pointer-events:none;background:radial-gradient(ellipse 62% 52% at 50% 50%,rgba(10,10,10,.92) 0%,rgba(10,10,10,.7) 55%,rgba(10,10,10,0) 100%);will-change:opacity,transform}
+.storm-hero .hero-cta,.storm-hero .pending{pointer-events:auto}
+.storm-cap{position:absolute;left:0;right:0;top:calc(52px + 7vh);margin:0;text-align:center;font-family:var(--display);font-weight:900;font-size:clamp(26px,3.6vw,46px);letter-spacing:-.01em;opacity:0;padding:0 var(--pad)}
+.storm-cols span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);font-weight:700;font-size:clamp(12px,1.2vw,15px);color:var(--text-2);opacity:0;white-space:nowrap}
+.storm-cols span.on{color:var(--yellow)}
+.storm-focus{position:absolute;left:0;top:0;opacity:0;pointer-events:none}
+.storm-focus .big{font-family:var(--mono);font-weight:600;font-size:clamp(34px,6.4vw,96px);line-height:1;color:var(--yellow);letter-spacing:-.04em;display:flex;align-items:center;gap:12px}
+.storm-focus .big::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--red)}
+.storm-focus .big span{color:var(--text);opacity:.9}
+.storm-focus .sub{font-size:14px;color:var(--text-2);border-top:1px solid rgba(255,212,0,.6);margin-top:10px;padding-top:8px}
+.storm-hint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);margin:0;font-size:12px;letter-spacing:.2em;color:var(--text-3)}
+.storm-hint::after{content:"";display:block;width:1px;height:28px;margin:8px auto 0;background:var(--text-3);animation:hint 2.2s var(--ease) infinite}
+@keyframes hint{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.storm-note{position:absolute;right:var(--pad);bottom:22px;margin:0;font-size:11.5px;color:var(--text-3)}
+.storm.flat{height:auto}
+.storm.flat .storm-pin{position:relative;height:auto;padding:clamp(80px,12vw,140px) 0 20px}
+.storm.flat .storm-hero{position:relative;background:none}
+.storm.flat #stormCanvas,.storm.flat .storm-cap,.storm.flat .storm-cols,.storm.flat .storm-focus,.storm.flat .storm-hint,.storm.flat .storm-note{display:none}
+.try{text-align:center}
+.try .lede{margin-left:auto;margin-right:auto}
+
+/* hero */
+.hero{text-align:center;padding:clamp(56px,9vw,112px) var(--pad) 0;overflow:hidden}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(44px,7.4vw,96px);line-height:1.12;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1 .y{color:var(--yellow)}
+.hero-sub{color:var(--text-2);font-size:clamp(16px,1.6vw,20px);margin:22px auto 0;max-width:34em;line-height:1.75}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+
+/* device */
+.stage{position:relative;max-width:1100px;margin:clamp(56px,8vw,88px) auto 0;padding:0 var(--pad)}
+.device{position:relative;border-radius:22px;background:var(--plane);box-shadow:0 0 0 1px #262628,0 40px 120px -20px rgba(0,0,0,.9);overflow:hidden;text-align:left}
+.app-bar{height:46px;display:flex;align-items:center;gap:14px;padding:0 18px;border-bottom:1px solid var(--line)}
+.dots{display:flex;gap:7px}.dots span{width:11px;height:11px;border-radius:50%;background:#3A3A3C}
+.app-word{font-family:var(--display);font-weight:900;font-size:13px;letter-spacing:.12em;color:var(--text-2)}
+.tabs{display:flex;gap:6px;margin-left:12px;flex-wrap:wrap}
+.tab{font:500 13px/1 var(--body);color:var(--text-2);background:none;border:0;padding:7px 12px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.tab:hover{color:var(--text)}
+.tab[aria-pressed="true"]{background:var(--text);color:var(--ink)}
+.tab .n{font-family:var(--mono);font-size:11px;margin-left:5px;opacity:.6}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:22px}
+.clip{min-width:0;transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.clip.out{opacity:.12;transform:scale(.98)}
+.thumb{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:var(--c,#333)}
+.thumb b{display:none;position:absolute;z-index:1;left:9%;top:12%;right:9%;font-family:var(--display);font-weight:900;font-size:clamp(11px,1.35vw,17px);line-height:1.15;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.6),0 0 12px rgba(0,0,0,.35)}
+.thumb b em{font-style:normal;color:var(--yellow)}
+.thumb .face{position:absolute;right:6%;bottom:0;width:30%;aspect-ratio:3/4;border-radius:40% 40% 0 0;background:rgba(255,255,255,.16)}
+.thumb .tc{position:absolute;right:7px;bottom:7px;font:500 11px/1 var(--mono);background:rgba(0,0,0,.72);padding:4px 6px;border-radius:4px}
+.clip.sel .thumb{box-shadow:0 0 0 3px var(--yellow)}
+.clip.sel .thumb .tc{background:var(--yellow);color:var(--yellow-ink)}
+.clip p{margin:9px 2px 0;font-size:13px;line-height:1.45;font-weight:500}
+.clip span.k{display:block;font-size:11.5px;color:var(--text-3);font-weight:400;margin-top:2px}
+.note-synth{font-size:12px;color:var(--text-3);text-align:right;padding:0 22px 14px;margin:0}
+.callout{position:absolute;right:calc(var(--pad) - 64px);top:-58px;text-align:left;pointer-events:none}
+.callout .big{font-family:var(--mono);font-weight:600;font-size:clamp(56px,8vw,112px);line-height:1;color:var(--yellow);letter-spacing:-.04em;display:flex;align-items:center;gap:14px}
+.callout .big::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--red)}
+.callout .sub{font-size:13px;color:var(--text-2);border-top:1px solid rgba(255,212,0,.6);margin-top:10px;padding-top:8px;max-width:220px;line-height:1.6}
+
+/* sections */
+section{padding:clamp(96px,14vw,180px) var(--pad);max-width:1180px;margin:0 auto}
+h2{font-family:var(--display);font-weight:900;font-size:clamp(34px,5vw,64px);line-height:1.18;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.lede{color:var(--text-2);font-size:clamp(16px,1.5vw,19px);max-width:32em;margin:22px 0 0}
+
+/* scrub */
+.scrub{margin-top:clamp(48px,7vw,80px)}
+.read{display:flex;align-items:baseline;gap:22px;flex-wrap:wrap}
+.read .time{font-family:var(--mono);font-weight:600;font-size:clamp(48px,10.5vw,148px);line-height:.95;letter-spacing:-.05em;white-space:nowrap}
+.read .time .in{color:var(--yellow)}
+.read .lbl{color:var(--text-2);font-size:14px;max-width:16em;line-height:1.6}
+.track{position:relative;height:84px;margin-top:28px;border-radius:12px;background:var(--plane-2);overflow:hidden}
+.frames{position:absolute;inset:0;display:grid;grid-template-columns:repeat(24,1fr);gap:2px;padding:8px}
+.frames i{border-radius:3px;background:#262628}
+.range{position:absolute;top:0;bottom:0;left:calc(var(--a,8)*1%);width:calc((var(--b,30) - var(--a,8))*1%);background:rgba(255,212,0,.22);box-shadow:inset 0 0 0 2px var(--yellow);border-radius:8px;transition:left .1s linear,width .1s linear}
+.range::before,.range::after{content:"";position:absolute;top:50%;width:6px;height:34px;margin-top:-17px;border-radius:3px;background:var(--yellow)}
+.range::before{left:-3px}.range::after{right:-3px}
+.head{position:absolute;top:-6px;bottom:-6px;left:calc(var(--p,0)*1%);width:2px;background:var(--text)}
+.ticks{display:flex;justify-content:space-between;font:400 12px/1 var(--mono);color:var(--text-3);margin-top:12px}
+.marks{display:flex;gap:28px;margin-top:22px;font-size:14px;color:var(--text-2);flex-wrap:wrap}
+.marks b{font-family:var(--mono);font-weight:500;color:var(--text)}
+
+/* yellow field */
+.field{background:var(--yellow);color:var(--yellow-ink)}
+.field section{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
+.field .lede{color:#3D3500}
+.doc{background:#fff;color:#1d1d1f;border-radius:16px;padding:28px 30px;box-shadow:0 30px 80px -30px rgba(60,50,0,.55);font-size:14.5px;line-height:1.75}
+.doc .dt{margin:0 0 4px;font:700 13px/1.4 var(--body);color:#6E6E73}
+.doc .dh{margin:18px 0 6px;font-size:17px;font-weight:700}
+.doc ul{margin:0;padding-left:1.1em}
+.doc li{margin:2px 0}
+.doc a{color:#1d1d1f;text-decoration-color:var(--yellow);text-decoration-thickness:3px;font-family:var(--mono);font-size:13px;word-break:break-all}
+.dests{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.dests span{font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--yellow-ink)}
+
+/* ai */
+.ai{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(40px,6vw,96px);align-items:end}
+.ai .lede{max-width:28em}
+.prompt{border-top:1px solid var(--line);padding-top:22px;font-size:15px;color:var(--text-2);line-height:1.9}
+.prompt b{color:var(--text);font-weight:500}
+
+/* pricing */
+.price-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.tiers{margin-top:clamp(40px,6vw,64px);border-top:1px solid var(--line)}
+.tier{display:grid;grid-template-columns:200px 1fr auto;gap:24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--line)}
+.tier .when{color:var(--text-2);font-size:15px}
+.tier .yen{font-family:var(--mono);font-weight:600;font-size:clamp(40px,6vw,72px);letter-spacing:-.04em;line-height:1}
+.tier .yen small{font-size:.38em;margin-left:4px;letter-spacing:0}
+.tier .tag{font-size:13px;color:var(--text-3)}
+.tier.now .when,.tier.now .tag{color:var(--yellow)}
+.tier.now .yen{color:var(--yellow)}
+.price-note{color:var(--text-2);font-size:14px;margin-top:22px}
+
+/* faq */
+.faq{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(40px,6vw,96px)}
+details{border-bottom:1px solid var(--line);padding:20px 0}
+details:first-child{border-top:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;font-weight:700;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:12px;height:12px;margin-top:7px;border-right:2px solid var(--text-2);border-bottom:2px solid var(--text-2);transform:rotate(45deg);transition:transform .3s var(--ease)}
+details[open] summary::after{transform:rotate(-135deg) translate(-4px,-4px)}
+details p{color:var(--text-2);margin:12px 0 0;max-width:36em}
+
+/* close */
+.close{text-align:center}
+.close h2{font-size:clamp(40px,6.4vw,84px)}
+footer{border-top:1px solid #1d1d1f;color:var(--text-3);font-size:12.5px}
+footer .in{max-width:1180px;margin:0 auto;padding:28px var(--pad) 40px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* the one authored entrance: the device settles into place once, from an already-visible start */
+.device{animation:settle 1.4s var(--ease) both}
+@keyframes settle{from{transform:translateY(24px) scale(.985);box-shadow:0 0 0 1px #262628,0 20px 60px -20px rgba(0,0,0,.9)}}
+@media (prefers-reduced-motion:reduce){.device{animation:none}}
+
+@media (max-width:900px){
+  .nav-links{display:none}
+  .nav-buy{margin-left:auto}
+  .grid{grid-template-columns:repeat(2,1fr);gap:14px;padding:16px}
+  .callout{position:static;margin:0 0 18px}
+  .field section,.ai,.faq{grid-template-columns:1fr}
+  .tier{grid-template-columns:1fr auto;gap:6px 18px}
+  .tier .tag{grid-column:1/-1}
+  .tabs{margin-left:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none}
+  .app-word,.dots{display:none}
+  .app-bar{padding:0 10px}
+}
+@media (max-width:520px){
+  .grid .clip:nth-child(n+5){display:none}
+  .frames{grid-template-columns:repeat(12,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="word" href="#top" aria-label="ヒキダシ トップへ"><i aria-hidden="true"></i>ヒキダシ</a>
+    <nav class="nav-links" aria-label="ページ内">
+      <a href="#keep">残す</a><a href="#hand">渡す</a><a href="#price">値段</a><a href="#faq">よくある質問</a>
+    </nav>
+    <a class="nav-buy" href="#price">購入</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="storm" id="storm">
+    <div class="storm-pin">
+      <canvas id="stormCanvas" aria-hidden="true"></canvas>
+      <div class="storm-hero" id="stormHero">
+        <h1><span class="nb">参考は、</span><span class="nb"><span class="y">秒</span>で渡す。</span></h1>
+        <p class="hero-sub"><span class="nb">参考動画の「どの秒が良いか」を残して、</span><span class="nb">その秒から開く資料のまま、</span><span class="nb">クライアントと編集者へ。</span></p>
+        <div class="hero-cta">
+          <a class="btn btn-y" aria-disabled="true">Brainで購入 <small>¥4,980</small></a>
+          <a class="btn btn-q" aria-disabled="true">Tipsで購入</a>
+        </div>
+        <p class="pending">販売ページは準備中です。先着10部は4,980円。</p>
+      </div>
+      <p class="storm-cap" id="stormCap" aria-hidden="true"><span class="nb">選んだものだけが、</span><span class="nb">引き出しに残る。</span></p>
+      <div class="storm-cols" id="stormCols" aria-hidden="true"><span>デザイン</span><span>冒頭</span><span>演出</span><span>ネタ</span></div>
+      <div class="storm-focus" id="stormFocus" aria-hidden="true">
+        <div class="big mono">0:05<span>–0:28</span></div>
+        <div class="sub">結論から入る対談の冒頭</div>
+      </div>
+      <p class="storm-hint" id="stormHint" aria-hidden="true">スクロール</p>
+      <p class="storm-note" aria-hidden="true">サムネは AI で作った作例です</p>
+    </div>
+  </div>
+
+  <section class="try">
+    <h2><span class="nb">4つの引き出しで、</span><span class="nb">すぐ絞り込める。</span></h2>
+    <p class="lede">デザイン・冒頭・演出・ネタ。上のタブを押すと、その引き出しの参考だけが残ります。</p>
+    <div class="stage">
+      <div class="device">
+        <div class="app-bar">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <span class="app-word">ヒキダシ</span>
+          <div class="tabs" role="group" aria-label="参考の種類で絞り込む">
+            <button class="tab" aria-pressed="true" data-k="all">すべて<span class="n">8</span></button>
+            <button class="tab" aria-pressed="false" data-k="design">デザイン<span class="n">2</span></button>
+            <button class="tab" aria-pressed="false" data-k="hook">冒頭<span class="n">2</span></button>
+            <button class="tab" aria-pressed="false" data-k="edit">演出<span class="n">2</span></button>
+            <button class="tab" aria-pressed="false" data-k="topic">ネタ<span class="n">2</span></button>
+          </div>
+        </div>
+        <div class="grid" id="grid">
+          <div class="clip" data-k="design"><div class="thumb" style="--c:#5B2321;background:#5B2321 url(assets/thumbs/t01.jpg) center/cover"><b>プロが<em>本音</em>で<br>答えます</b><span class="tc">0:00</span></div><p>行ごとに色の箱で読ませる<span class="k">デザイン ・ ★★★</span></p></div>
+          <div class="clip" data-k="edit"><div class="thumb" style="--c:#203F33;background:#203F33 url(assets/thumbs/t02.jpg) center/cover"><b>1日<em>密着</em><br>してみた</b><span class="tc">2:40–3:05</span></div><p>セリフ1つで引き込む<span class="k">演出 ・ ★★★</span></p></div>
+          <div class="clip" data-k="topic"><div class="thumb" style="--c:#3D3426;background:#3D3426 url(assets/thumbs/t03.jpg) center/cover"><b><em>比較</em>してわかった<br>本当の差</b><span class="tc">0:00–0:15</span></div><p>対立とセリフで引く企画<span class="k">ネタ ・ ★★★★</span></p></div>
+          <div class="clip sel" data-k="hook"><div class="thumb" style="--c:#24324F;background:#24324F url(assets/thumbs/t00.jpg) center/cover"><b>知らないと<em>損</em>する<br>3つのこと</b><span class="tc">0:05–0:28</span></div><p>5秒で結論を言う冒頭<span class="k">冒頭 ・ ★★★★</span></p></div>
+          <div class="clip" data-k="design"><div class="thumb" style="--c:#2B2B4A;background:#2B2B4A url(assets/thumbs/t04.jpg) center/cover"><b>やめて<em>正解</em><br>だった習慣</b><span class="tc">0:00</span></div><p>振込画面で証拠を見せる<span class="k">デザイン ・ ★★</span></p></div>
+          <div class="clip" data-k="hook"><div class="thumb" style="--c:#4A2B3B;background:#4A2B3B url(assets/thumbs/t05.jpg) center/cover"><b>なぜ9割が<br><em>失敗</em>するのか</b><span class="tc">0:00–0:12</span></div><p>数字で不安をつかむ冒頭<span class="k">冒頭 ・ ★★★</span></p></div>
+          <div class="clip" data-k="edit"><div class="thumb" style="--c:#1E3A44;background:#1E3A44 url(assets/thumbs/t06.jpg) center/cover"><b>社長に<br><em>直撃</em>してみた</b><span class="tc">4:10–4:32</span></div><p>肩書きと箱で信頼を作る</p></div>
+          <div class="clip" data-k="topic"><div class="thumb" style="--c:#44391E;background:#44391E url(assets/thumbs/t07.jpg) center/cover"><b><em>月30万</em>の<br>リアル</b><span class="tc">0:00</span></div><p>ビフォーアフターの数字<span class="k">ネタ ・ ★★★</span></p></div>
+        </div>
+        <p class="note-synth">画面はイメージです（サムネは AI で作った作例）</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="keep">
+    <h2><span class="nb">URLだけでは、</span><span class="nb">伝わらない。</span></h2>
+    <p class="lede">良いところを IN と OUT で区切ると、その区間だけがループします。「どこが良いか」を1行で残せば、何週間たっても、あの数秒にすぐ戻れます。</p>
+    <div class="scrub" id="scrub">
+      <div class="read">
+        <div class="time mono" aria-live="off"><span class="in" id="tIn">0:05</span><span style="color:var(--text-3)"> – </span><span id="tOut">0:28</span></div>
+        <p class="lbl">スクロールすると、再生位置が動きます。黄色の区間だけがループする範囲です。</p>
+      </div>
+      <div class="track" aria-hidden="true">
+        <div class="frames" id="frames"></div>
+        <div class="range" id="range"></div>
+        <div class="head" id="head"></div>
+      </div>
+      <div class="ticks mono" aria-hidden="true"><span>0:00</span><span>0:15</span><span>0:30</span><span>0:45</span><span>1:00</span></div>
+      <div class="marks"><span><b>I</b>　ここから</span><span><b>O</b>　ここまで</span><span><b>Space</b>　再生・停止</span><span><b>, .</b>　コマ送り</span></div>
+    </div>
+  </section>
+
+  <div class="field" id="hand">
+    <section>
+      <div>
+        <h2><span class="nb">そのまま、</span><span class="nb">渡せる。</span></h2>
+        <p class="lede">「参考資料をコピー」を押すと、種類ごとに分かれた参考資料ができあがります。リンクはどれも、その秒から開きます。</p>
+        <div class="dests"><span>Chatwork</span><span>Slack</span><span>Notion</span><span>Googleドキュメント</span></div>
+      </div>
+      <div class="doc" aria-label="コピーされる参考資料の例">
+        <p class="dt">参考資料：来週の企画</p>
+        <p class="dh">冒頭（2）</p>
+        <ul>
+          <li>5秒で結論を言う冒頭　0:05–0:28</li>
+          <li><a href="#hand" tabindex="-1">youtube.com/watch?v=…&amp;t=5s</a></li>
+          <li>良いところ：最初の5秒で結論、そのあと理由を3つ予告</li>
+        </ul>
+        <p class="dh">デザイン（2）</p>
+        <ul>
+          <li>数字を左上に置くサムネ　0:00</li>
+          <li>良いところ：数字だけ黄色、顔は右下</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <section>
+    <div class="ai">
+      <div>
+        <h2><span class="nb">分析は、</span><span class="nb">いつものAIに。</span></h2>
+        <p class="lede">ヒキダシにはAIを入れていません。そのかわり、分析をお願いする文をつけてコピーできます。ClaudeやChatGPTに貼れば、共通点や冒頭の型をまとめてもらえます。AIの利用料がかからないので、月額なしの買い切りにしました。</p>
+      </div>
+      <p class="prompt"><b>コピーされるお願いの文</b><br>種類ごとに、参考どうしの共通点を3つずつ挙げてください。次の動画に取り入れるなら、冒頭の台本の型、テロップ、サムネの方向を具体的に。</p>
+    </div>
+  </section>
+
+  <section id="price">
+    <div class="price-head">
+      <h2>買い切り。月額なし。</h2>
+      <p class="lede" style="margin:0">Windows・Macのブラウザで使えます。<br>インストールは要りません。</p>
+    </div>
+    <div class="tiers">
+      <div class="tier now"><span class="when">先着10部</span><span class="yen mono">4,980<small>円</small></span><span class="tag">発売記念の値段</span></div>
+      <div class="tier"><span class="when">11〜40部目</span><span class="yen mono">7,980<small>円</small></span><span class="tag">&nbsp;</span></div>
+      <div class="tier"><span class="when">41部目から</span><span class="yen mono">9,800<small>円</small></span><span class="tag">通常の値段</span></div>
+    </div>
+    <p class="price-note">購入は Brain か Tips から。販売ページは準備中です。</p>
+  </section>
+
+  <section id="faq">
+    <div class="faq">
+      <h2>よくある質問</h2>
+      <div>
+        <details><summary>動画をダウンロードしますか？</summary><p>しません。YouTubeの動画はリンクと秒数だけを残し、再生はYouTubeの公式プレイヤーです。</p></details>
+        <details><summary>データはどこに保存されますか？</summary><p>お使いのブラウザの中だけです。外のサーバーには送りません。ブラウザのデータを消すと消えるので、アプリの中からときどきバックアップを書き出してください。</p></details>
+        <details><summary>WindowsでもMacでも使えますか？</summary><p>使えます。ChromeやEdgeなどのブラウザで動きます。</p></details>
+        <details><summary>伸びた動画を探す機能はありますか？</summary><p>ありません。ヒキダシは、見つけた動画を残して渡すための道具です。リサーチの表やツールと一緒に使ってください。</p></details>
+        <details><summary>返金はできますか？</summary><p>デジタル商品のため、購入後の返金はできません。購入前にこのページと販売ページの説明をご確認ください。</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="close">
+    <h2><span class="nb">参考の引き出しを、</span><span class="nb">増やそう。</span></h2>
+    <div class="hero-cta">
+      <a class="btn btn-y" aria-disabled="true">Brainで購入 <small>¥4,980</small></a>
+      <a class="btn btn-q" aria-disabled="true">Tipsで購入</a>
+    </div>
+    <p class="pending">販売ページは準備中です。</p>
+  </section>
+</main>
+
+<footer>
+  <div class="in">
+    <span>© ヒキダシ</span>
+    <span>YouTube は Google LLC の商標です。ヒキダシは YouTube とは関係のない、YouTube 向けの道具です。</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+
+  var tabs=document.querySelectorAll('.tab'),clips=document.querySelectorAll('.clip');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-pressed',x===t?'true':'false')});
+    var k=t.dataset.k;clips.forEach(function(c){c.classList.toggle('out',k!=='all'&&c.dataset.k!==k)});
+  })});
+
+  var frames=document.getElementById('frames');for(var i=0;i<24;i++)frames.appendChild(document.createElement('i'));
+  var scrub=document.getElementById('scrub'),range=document.getElementById('range'),head=document.getElementById('head');
+  var tIn=document.getElementById('tIn'),tOut=document.getElementById('tOut');
+  function fmt(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function onScroll(){
+    var r=scrub.getBoundingClientRect(),vh=innerHeight;
+    var p=Math.min(1,Math.max(0,(vh-r.top)/(vh+r.height*.4)));
+    if(reduce)p=.6;
+    var a=8,b=8+p*39;
+    range.style.setProperty('--a',a);range.style.setProperty('--b',b);
+    head.style.setProperty('--p',b);
+    tIn.textContent=fmt(a*.6);tOut.textContent=fmt(b*.6);
+  }
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+<script type="module">
+// The storm: a cloud of reference thumbnails that scroll sorts into four drawers,
+// then one comes forward with its range. Plain HTML stays readable without it.
+const storm = document.getElementById('storm');
+const flat = () => storm.classList.add('flat');
+let THREE;
+try {
+  const probe = document.createElement('canvas');
+  if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) throw 0;
+  THREE = await import('https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js');
+} catch { flat(); }
+
+if (THREE) {
+  await document.fonts.ready;
+  const canvas = document.getElementById('stormCanvas');
+  const hero = document.getElementById('stormHero');
+  const cap = document.getElementById('stormCap');
+  const hint = document.getElementById('stormHint');
+  const focusEl = document.getElementById('stormFocus');
+  const labels = [...document.querySelectorAll('#stormCols span')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const small = innerWidth < 760;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.5 : 2));
+  renderer.setClearColor(0x0a0a0a, 1);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x0a0a0a, 10, 30);
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+
+  // Synthetic thumbnails in the language of business YouTube: bold outlined title, one yellow word, a face.
+  // Sample thumbnails generated with Nano Banana Pro (titles baked in). TITLES is the fallback when an image fails to load.
+  const TITLES = [
+    ['その会議、', '9割ムダ', '', ''], ['給料はそのままで', '手取り+3万円', '', ''],
+    ['', 'もう限界です', '', ''], ['', '甘すぎるだろ', '', ''],
+    ['動画編集で', '月30万', '', ''], ['5年後に', '消える', '仕事', ''],
+    ['知らないと損する', '副業の税金', '', ''], ['AIで', '残業ゼロ', '', ''],
+    ['', '納期まであと3時間', '', ''], ['それ、', '詐欺', 'です', ''],
+    ['SNS運用で', '月50万', '', ''], ['年収', '1000万', 'の', '転職のリアル'],
+  ];
+  const photos = await Promise.all(TITLES.map((_, i) => new Promise(res => {
+    const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null);
+    im.src = `assets/thumbs/t${String(i).padStart(2, '0')}.jpg`;
+  })));
+  const ROUND = (() => {
+    const c = document.createElement('canvas'); c.width = 256; c.height = 144;
+    const x = c.getContext('2d'); x.fillStyle = '#000'; x.fillRect(0, 0, 256, 144);
+    x.fillStyle = '#fff'; x.beginPath(); x.roundRect(0, 0, 256, 144, 12); x.fill();
+    const t = new THREE.CanvasTexture(c); return t;
+  })();
+  function thumbTexture([a, hi, b, line2], i) {
+    const W = 640, H = 360, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const x = c.getContext('2d');
+    x.fillStyle = '#1C1C1E'; x.fillRect(0, 0, W, H);
+    if (photos[i]) {
+      // The titles are part of the generated image; nothing to draw on top.
+      x.drawImage(photos[i], 0, 0, W, H);
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+      return t;
+    }
+    const shade = x.createLinearGradient(0, 0, W * .7, 0);
+    shade.addColorStop(0, 'rgba(0,0,0,.55)'); shade.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = shade; x.fillRect(0, 0, W, H);
+    x.font = '900 64px "Zen Kaku Gothic New", "Hiragino Sans", sans-serif';
+    x.lineJoin = 'round'; x.textBaseline = 'top';
+    const line = (parts, y) => {
+      let cx = 40;
+      const full = parts.map(q => q[0]).join('');
+      x.font = '900 64px "Zen Kaku Gothic New", "Hiragino Sans", sans-serif';
+      const fit = Math.min(1, (W * .66) / x.measureText(full).width);
+      x.font = `900 ${Math.floor(64 * fit)}px "Zen Kaku Gothic New", "Hiragino Sans", sans-serif`;
+      for (const [txt, yellow] of parts) {
+        if (!txt) continue;
+        x.lineWidth = 12; x.strokeStyle = '#000'; x.strokeText(txt, cx, y);
+        x.fillStyle = yellow ? '#FFD400' : '#fff'; x.fillText(txt, cx, y);
+        cx += x.measureText(txt).width;
+      }
+    };
+    line([[a, false], [hi, true], [b, false]], 56);
+    line([[line2, false]], 138);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+    return t;
+  }
+  const textures = TITLES.map((t, i) => thumbTexture(t, i));
+
+  // Kept: a 4 x 4 grid, one column per drawer. Everything else leaves.
+  const COLS = 4, ROWS = 3, PW = 1.6, PH = 0.9, GX = 1.95, GY = 1.2;
+  const N = small ? 90 : 170;
+  const geo = new THREE.PlaneGeometry(PW, PH);
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const items = [];
+  for (let i = 0; i < N; i++) {
+    const kept = i < COLS * ROWS;
+    const col = i % COLS, row = Math.floor(i / COLS);
+    const mat = new THREE.MeshBasicMaterial({ map: textures[i % textures.length], alphaMap: ROUND, transparent: true, depthWrite: true });
+    const m = new THREE.Mesh(geo, mat);
+    const storm = new THREE.Vector3(rnd(-10, 10), rnd(-5.5, 5.5), rnd(-16, 2.5));
+    if (kept && Math.abs(storm.x) < 3 && Math.abs(storm.y) < 2 && storm.z > -2) storm.z -= 6;
+    items.push({
+      m, kept, col, row,
+      storm, rot: new THREE.Euler(rnd(-.5, .5), rnd(-.7, .7), rnd(-.35, .35)),
+      grid: new THREE.Vector3((col - (COLS - 1) / 2) * GX, ((ROWS - 1) / 2 - row) * GY - .25, 0),
+      exit: storm.clone().multiplyScalar(1.6).add(new THREE.Vector3(0, 0, -14)),
+      delay: kept ? row * .035 + col * .02 : Math.random() * .2,
+      phase: Math.random() * 6.28, speed: rnd(.25, .6),
+    });
+    scene.add(m);
+  }
+  const sel = items[1 + 0 * COLS]; // the 冒頭 drawer, first row
+  sel.m.material.map = textures[0];
+  items[0].m.material.map = textures[1];
+  const frame = new THREE.Mesh(new THREE.PlaneGeometry(PW + .09, PH + .09), new THREE.MeshBasicMaterial({ color: 0xffd400, alphaMap: ROUND, transparent: true, opacity: 0 }));
+  scene.add(frame);
+
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const ease = t => 1 - Math.pow(1 - clamp(t), 4);
+  const band = (p, a, b) => clamp((p - a) / (b - a));
+  const tmp = new THREE.Vector3(), proj = new THREE.Vector3();
+
+  let camZ = 12;
+  function resize() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    // Fit the kept grid (plus a margin) inside the frame at any aspect.
+    const halfW = (COLS * GX) / 2 + (small ? .05 : .3), halfH = (ROWS * GY) / 2 + 1.1;
+    const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    camZ = Math.max(halfH / tanV, halfW / (tanV * camera.aspect));
+    scene.fog.near = camZ - 2; scene.fog.far = camZ + 22;
+    camera.updateProjectionMatrix();
+  }
+  addEventListener('resize', resize); resize();
+
+  let mx = 0, my = 0, tx = 0, ty = 0;
+  addEventListener('pointermove', e => { tx = e.clientX / innerWidth * 2 - 1; ty = e.clientY / innerHeight * 2 - 1; }, { passive: true });
+
+  let pT = 0, p = 0, visible = true;
+  const progress = () => {
+    const r = storm.getBoundingClientRect();
+    return clamp(-r.top / (r.height - innerHeight));
+  };
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(storm);
+
+  const clock = new THREE.Clock();
+  function frameLoop() {
+    requestAnimationFrame(frameLoop);
+    if (!visible || document.hidden) return;
+    const time = reduce ? 0 : clock.getElapsedTime();
+    pT = progress(); p += (pT - p) * (reduce ? 1 : .085);
+    mx += (tx - mx) * .05; my += (ty - my) * .05;
+
+    const sortT = band(p, .1, .55);        // storm -> drawers
+    const focusT = ease(band(p, .68, .9)); // one comes forward
+    camera.position.set(mx * .9 * (1 - sortT), -my * .5 * (1 - sortT), camZ + (1 - ease(sortT)) * 2.5);
+    camera.lookAt(0, 0, 0);
+
+    for (const it of items) {
+      const t = ease(clamp((sortT - it.delay) / .62));
+      const drift = (1 - t) * (reduce ? 0 : 1);
+      tmp.copy(it.storm);
+      tmp.x += Math.sin(time * it.speed + it.phase) * .35 * drift;
+      tmp.y += Math.cos(time * it.speed * .8 + it.phase) * .25 * drift;
+      const m = it.m;
+      if (it.kept) {
+        m.position.lerpVectors(tmp, it.grid, t);
+        m.rotation.set(it.rot.x * (1 - t), it.rot.y * (1 - t), it.rot.z * (1 - t));
+        let op = 1, sc = 1;
+        if (it === sel) {
+          m.position.lerp(tmp.set(0, -.1, 2.1), focusT);
+          sc = 1 + focusT * (small ? .9 : 1.25);
+        } else op = 1 - focusT * .8;
+        m.scale.setScalar(sc); m.material.opacity = op;
+      } else {
+        m.position.lerpVectors(tmp, it.exit, t);
+        m.rotation.set(it.rot.x, it.rot.y + t * .6, it.rot.z);
+        m.material.opacity = 1 - t;
+        m.visible = t < .999;
+      }
+    }
+    frame.position.copy(sel.m.position).add(tmp.set(0, 0, -.01));
+    frame.scale.copy(sel.m.scale);
+    frame.material.opacity = focusT;
+
+    // HTML layers riding the scene
+    const heroOut = ease(band(p, .02, .14));
+    hero.style.opacity = 1 - heroOut;
+    hero.style.transform = `translateY(${-heroOut * 40}px)`;
+    hero.style.visibility = heroOut > .99 ? 'hidden' : 'visible';
+    hint.style.opacity = 1 - band(p, 0, .05);
+    cap.style.opacity = band(p, .3, .38) * (1 - band(p, .46, .52));
+    const colOp = band(p, .52, .6) * (1 - band(p, .72, .8));
+    labels.forEach((el, c) => {
+      proj.set((c - (COLS - 1) / 2) * GX, (ROWS - 1) / 2 * GY - .25 + PH / 2 + .18, 0).project(camera);
+      el.style.left = `${(proj.x + 1) / 2 * innerWidth}px`;
+      el.style.top = `${(1 - proj.y) / 2 * canvas.clientHeight}px`;
+      el.style.opacity = colOp;
+      el.classList.toggle('on', c === 1);
+    });
+    const fo = band(p, .82, .92);
+    proj.set(sel.m.position.x - PW * sel.m.scale.x / 2, sel.m.position.y - PH * sel.m.scale.y / 2 - .08, sel.m.position.z).project(camera);
+    focusEl.style.opacity = fo;
+    const fx = Math.min((proj.x + 1) / 2 * innerWidth, innerWidth - focusEl.offsetWidth - 16);
+    focusEl.style.transform = `translate(${Math.max(16, fx)}px, ${(1 - proj.y) / 2 * canvas.clientHeight + 14}px)`;
+
+    renderer.render(scene, camera);
+  }
+  frameLoop();
+}
+</script>
+</body>
+</html>
