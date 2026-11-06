@@ -1,0 +1,1 @@
+const o=3145728;function a(n){return new Promise((r,t)=>{const e=new FileReader;e.onload=()=>r(String(e.result).split(",")[1]||""),e.onerror=()=>t(e.error),e.readAsDataURL(n)})}function s(n){const r=atob(n),t=new Uint8Array(r.length);for(let e=0;e<r.length;e++)t[e]=r.charCodeAt(e);return t}export{o as C,a,s as b};
