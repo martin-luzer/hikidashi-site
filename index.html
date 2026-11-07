@@ -2,7 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>ヒキダシ — YouTube の参考動画を、秒で渡す。</title>
@@ -37,10 +38,10 @@ em{font-style:normal}
 .side-r{align-items:flex-start}
 .col{background:var(--plane);background-image:var(--grid);border-left:1px solid var(--line);border-right:1px solid var(--line);min-width:0}
 
-.logo{display:inline-flex;align-items:center;gap:10px;background:var(--ink);border:2px solid var(--yellow);border-radius:14px;padding:12px 18px;font-family:var(--display);font-weight:900;font-size:28px;letter-spacing:.06em;line-height:1;box-shadow:0 0 0 4px var(--ink)}
-.logo i{display:inline-block;width:22px;height:18px;border:3px solid var(--yellow);border-radius:4px;position:relative}
-.logo i::after{content:"";position:absolute;left:50%;top:5px;width:8px;height:3px;margin-left:-4px;background:var(--yellow);border-radius:2px}
-.logo b{color:var(--yellow)}
+/* logo = telop band (same as the app, 2026-11-07): yellow band, black type, red band offset */
+.logo{display:inline-block;background:var(--yellow);color:#0A0A0A;padding:.16em .42em .2em;font-family:var(--display);font-weight:900;font-size:28px;letter-spacing:.04em;line-height:1;box-shadow:.14em .14em 0 #E60012}
+.logo i{display:none}
+.logo b{color:inherit}
 .side-catch{font-family:var(--display);font-weight:900;font-size:17px;line-height:1.6;text-align:right}
 .side-catch em{color:var(--yellow)}
 
@@ -69,9 +70,7 @@ em{font-style:normal}
 /* ---------- center column ---------- */
 .hdr{position:sticky;top:0;z-index:5;padding:12px 14px;background:linear-gradient(var(--plane) 70%,transparent)}
 .hdr-in{display:flex;justify-content:space-between;align-items:center;background:var(--ink);border:2px solid var(--yellow);border-radius:14px;padding:8px 8px 8px 16px}
-.hdr .logo{border:0;padding:0;font-size:20px;box-shadow:none}
-.hdr .logo i{width:18px;height:15px;border-width:2.5px}
-.hdr .logo i::after{top:4px}
+.hdr .logo{font-size:20px}
 .hdr a.buy{background:var(--yellow);color:var(--yellow-ink);font-weight:900;font-size:13px;text-decoration:none;border-radius:999px;padding:7px 16px}
 
 .marquee{overflow:hidden;padding:6px 0 14px}
@@ -119,7 +118,7 @@ p.lead{font-size:15px;line-height:2;color:var(--text)}
 .fv-tags span{width:max-content;background:var(--ink);padding:3px 10px;border:1.5px solid var(--text)}
 .fv-tags em{color:var(--yellow)}
 .fv-foot{display:flex;justify-content:space-between;align-items:center;background:var(--ink);margin:0 -18px;padding:14px 18px;border-top:2px solid var(--text)}
-.fv-foot .logo{border:0;padding:0;font-size:26px;box-shadow:none}
+.fv-foot .logo{font-size:26px}
 .fv-foot small{font-family:var(--mono);font-size:9px;line-height:1.5;text-align:right;color:var(--text-2)}
 .cta{display:grid;gap:16px;padding:28px 14px 8px}
 
